@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useCallback, useEffect} from "react";
 import "./App.css";
 import Header from "./components/header";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -84,7 +84,7 @@ function App() {
   const connexion = useAppSelector((state) => state.connexion);
   const dispatch = useAppDispatch();
 
-  function handleLogOut() {
+  const handleLogOut = useCallback(() => {
     dispatch(changeCategoriesSelected(-1));
     dispatch(changeSelectedLocation(-1));
     dispatch(emptyBasket());
@@ -92,7 +92,7 @@ function App() {
     dispatch(emptyHistory());
     dispatch(logOut());
     localStorage.removeItem("@auth_info");
-  }
+  }, [dispatch]);
 
   useEffect(() => {
     try {
@@ -111,7 +111,7 @@ function App() {
     }catch(e){
       console.log(e)
     }
-  }, []);
+  }, [handleLogOut]);
 
   useEffect(() => {
     function getBlocages(){
@@ -217,7 +217,7 @@ function App() {
       getArticles();
 
     }
-  }, [connexion, dispatch]);
+  }, [connexion, dispatch, handleLogOut]);
 
   return (
     <ThemeProvider theme={theme}>
