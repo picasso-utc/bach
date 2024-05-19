@@ -1,12 +1,5 @@
 import axios from "axios";
-import {
-  API_URL,
-  EVENT_ID,
-  FUND_ID,
-  WEEZEVENT_APP_KEY,
-  WEEZEVENT_SYSTEM_ID,
-  WEEZEVENT_URL,
-} from "../config";
+import {config} from "../config";
 
 export async function apiRequest(
   method: string,
@@ -16,7 +9,7 @@ export async function apiRequest(
 ) {
   return axios({
     method: method,
-    baseURL: API_URL,
+    baseURL: config.API_URL,
     url: path,
     params: params,
     data: data,
@@ -40,18 +33,18 @@ export async function weezRequest(
   params?: string[],
 ) {
   let requestParams: { [key: string]: string | number } = {
-    system_id: WEEZEVENT_SYSTEM_ID,
-    app_key: WEEZEVENT_APP_KEY,
+    system_id: config.WEEZEVENT_SYSTEM_ID,
+    app_key: config.WEEZEVENT_APP_KEY,
   };
   let requestData: { [key: string]: string | number } = {
     ...data,
   };
   if (params) {
     if (params.includes("FUND_ID")) {
-      requestData.fun_id = FUND_ID;
+      requestData.fun_id = config.FUND_ID;
     }
     if (params.includes("EVENT_ID")) {
-      requestData.event_id = EVENT_ID;
+      requestData.event_id = config.EVENT_ID;
     }
     if (params.includes("AUTH")) {
       const auth_info = localStorage.getItem("@auth_info");
@@ -62,7 +55,7 @@ export async function weezRequest(
   }
   return axios({
     method: method,
-    baseURL: WEEZEVENT_URL,
+    baseURL: config.WEEZEVENT_URL,
     url: path,
     params: requestParams,
     data: requestData,
