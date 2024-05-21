@@ -96,7 +96,7 @@ function App() {
 
   useEffect(() => {
     try {
-      const sse = new EventSource('http://127.0.0.1.8080/cards/events');
+      const sse = new EventSource('http://127.0.0.1:8080/cards/events');
       sse.onerror = (err) => {
         // error log here
         console.log(err)
