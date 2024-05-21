@@ -40,9 +40,10 @@ export default function PaymentBox() {
       items.push([article!.item.id, article!.quantity]);
     });
     if(blockedUsers.includes(badge_id)){
+      dispatch(emptyBasket());
       dispatch(setPayment({
         success: false,
-        messageError: "Ah batard t bloqué",
+        messageError: "Fait ta TIJ!",
       }))
       setTimeout(() => {
         dispatch(emptyPayment());
