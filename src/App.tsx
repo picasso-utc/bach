@@ -97,8 +97,8 @@ function App() {
   useEffect(() => {
     try {
       const sse = new EventSource('http://127.0.0.1:8080/cards/events');
-      sse.addEventListener('message', function(e) {
-        console.log(e.data);
+      sse.addEventListener('cardRead', function(e) {
+        console.log(e);
       }, false);
       sse.addEventListener('open', function(e) {
         console.log(">>> Connection opened!");
