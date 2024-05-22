@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PinIcon from "@mui/icons-material/Pin";
@@ -30,40 +30,51 @@ export default function Connexion() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState({ title: "", message: "" });
 
-  function loginCas() {
-    dispatch(logInPending(cas));
-    apiRequest("POST", "bach/login/cas", { cas: cas, pin: pin })
-      .then(function (res) {
-        if (res !== undefined) {
-          dispatch(
-            logInSuccess({
-              username: res.data.username,
-              sessionId: res.data.sessionid,
-            }),
-          );
-          localStorage.setItem(
-            "@auth_info",
-            JSON.stringify({
-              username: res.data.username,
-              sessionId: res.data.sessionid,
-            }),
-          );
-        } else {
-          setError({
-            title: "Reponse du serveur vide",
-            message:
-              "Le serveur n'as rien renvoyer après votre demande de connexion",
+  useEffect(() => {
+    function loginCas(casFunc:string,pinFunc:string) {
+      dispatch(logInPending(casFunc));
+      apiRequest("POST", "bach/login/cas", { cas: casFunc, pin: pinFunc })
+          .then(function (res) {
+            if (res !== undefined) {
+              dispatch(
+                  logInSuccess({
+                    username: res.data.username,
+                    sessionId: res.data.sessionid,
+                  }),
+              );
+              localStorage.setItem(
+                  "@auth_info",
+                  JSON.stringify({
+                    username: res.data.username,
+                    sessionId: res.data.sessionid,
+                  }),
+              );
+            } else {
+              setError({
+                title: "Reponse du serveur vide",
+                message:
+                    "Le serveur n'as rien renvoyer après votre demande de connexion",
+              });
+              dispatch(logInFailed());
+              localStorage.removeItem("@auth_info");
+            }
+          })
+          .catch(function (error) {
+            setError(error.response.data);
+            dispatch(logInFailed());
+            localStorage.removeItem("@auth_info");
           });
-          dispatch(logInFailed());
-          localStorage.removeItem("@auth_info");
-        }
-      })
-      .catch(function (error) {
-        setError(error.response.data);
-        dispatch(logInFailed());
-        localStorage.removeItem("@auth_info");
-      });
-  }
+    }
+
+    if(pin.length===4){
+      if(connexion.type===typeConnexion.PENDING){
+        loginCas(connexion.connect.user.username!,pin)
+      }
+      else{
+        loginCas(cas,pin)
+      }
+    }
+  }, [cas, connexion.connect.user.username, connexion.type, dispatch, pin]);
 
   return (
     <Modal
@@ -119,13 +130,6 @@ export default function Connexion() {
                 setPin(event.target.value);
               }}
             />
-            <Button
-              variant="contained"
-              onClick={() => loginCas()}
-              endIcon={<LoginIcon />}
-            >
-              Connectez-vous
-            </Button>
           </Box>
         ) : connexion.type === typeConnexion.LOGOUT && wsState.cardReader? (
             <Box className={"flex align-middle justify-center p-4"}>
@@ -139,16 +143,85 @@ export default function Connexion() {
               </Typography>
             </Box>
         ): connexion.type === typeConnexion.PENDING && wsState.cardReader? (
-          <Box className={"flex align-middle justify-center p-4"}>
-            <Typography
-                id="modal-modal-title"
-                variant="h5"
-                component="h2"
-                className={"text-center"}
-            >
-              ici bouton pour connexion
-            </Typography>
-      </Box>
+          <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("1"))}
+              >
+                1
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("2"))}
+              >
+                2
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("3"))}
+              >
+                3
+              </Button>
+            </Box>
+            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("4"))}
+              >
+                4
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("5"))}
+              >
+                5
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("6"))}
+              >
+                6
+              </Button>
+            </Box>
+            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("7"))}
+              >
+                7
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("8"))}
+              >
+                8
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("9"))}
+              >
+                9
+              </Button>
+            </Box>
+            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+              <Button
+                  variant="contained"
+                  onClick={() => setPin((pin)=>pin.concat("0"))}
+              >
+                0
+              </Button>
+            </Box>
+            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+              <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setPin("")}
+              >
+                Supprimer Pin
+              </Button>
+            </Box>
+          </Box>
       )
             : connexion.type === typeConnexion.PENDING && !wsState.cardReader? (
           <Box className={"flex align-middle justify-center p-4"}>
