@@ -94,7 +94,7 @@ function App() {
   useEffect(() => {
     if (lastMessage !== null) {
       console.log(lastMessage.data)
-      if(lastMessage.data.type){
+      if(lastMessage.data.type==="card"){
         console.log(lastMessage.data.payload)
       }
     }
