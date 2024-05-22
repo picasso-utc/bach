@@ -97,15 +97,15 @@ function App() {
   useEffect(() => {
     try {
       const sse = new EventSource('http://127.0.0.1:8080/cards/events');
-      sse.onerror = (err) => {
-        // error log here
-        console.log(err)
-        handleLogOut();
-        // after logging, close the connection
-        sse.close();
-      }
-      sse.onopen = () => console.log(">>> Connection opened!");
-      sse.onmessage = e => console.log(e.data);
+      sse.addEventListener('message', function(e) {
+        console.log(e.data);
+      }, false);
+      sse.addEventListener('open', function(e) {
+        console.log(">>> Connection opened!");
+      }, false);
+      sse.addEventListener('error', function(e) {
+        console.log(e);
+      }, false);
       return () => {
         sse.close();
       };
