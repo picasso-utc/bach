@@ -83,7 +83,7 @@ const theme = createTheme({
 
 function App() {
   const connexion = useAppSelector((state) => state.connexion);
-  const {lastMessage } = useWebSocket('wss://127.0.0.1:8080/cards/listen');
+  const {lastMessage } = useWebSocket('ws://127.0.0.1:8080/cards/listen');
 
   useEffect(() => {
     if (lastMessage !== null) {
