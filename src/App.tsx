@@ -104,12 +104,13 @@ function App() {
         // after logging, close the connection
         sse.close();
       }
-      sse.onmessage = e => console.log(e);
+      sse.onopen = () => console.log(">>> Connection opened!");
+      sse.onmessage = e => console.log(e.data);
       return () => {
         sse.close();
       };
     }catch(e){
-      console.log(e)
+      console.log(e);
     }
   }, [handleLogOut]);
 
