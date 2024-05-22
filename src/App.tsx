@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import "./App.css";
 import Header from "./components/header";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -36,7 +36,7 @@ import { emptyBasket } from "./features/basket/basketSlice";
 import { emptyPayment } from "./features/payment/paymentSlice";
 import { emptyHistory } from "./features/history/historySlice";
 import {changeBlocage} from "./features/blocages/blocageSlice";
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import useWebSocket from 'react-use-websocket';
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
