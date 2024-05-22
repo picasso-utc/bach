@@ -24,13 +24,14 @@ import {
 
 export default function Connexion() {
   const connexion = useAppSelector((state) => state.connexion);
+  const wsState = useAppSelector((state) => state.webSocket);
   const dispatch = useAppDispatch();
   const [cas, setCas] = useState("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState({ title: "", message: "" });
 
   function loginCas() {
-    dispatch(logInPending());
+    dispatch(logInPending(cas));
     apiRequest("POST", "bach/login/cas", { cas: cas, pin: pin })
       .then(function (res) {
         if (res !== undefined) {
@@ -82,7 +83,7 @@ export default function Connexion() {
         >
           - Connexion -
         </Typography>
-        {connexion.type === typeConnexion.LOGOUT ? (
+        {connexion.type === typeConnexion.LOGOUT && !wsState.cardReader ? (
           <Box
             className={"flex flex-col space-y-6 justify-center align-middle"}
           >
@@ -126,7 +127,30 @@ export default function Connexion() {
               Connectez-vous
             </Button>
           </Box>
-        ) : connexion.type === typeConnexion.PENDING ? (
+        ) : connexion.type === typeConnexion.LOGOUT && wsState.cardReader? (
+            <Box className={"flex align-middle justify-center p-4"}>
+              <Typography
+                  id="modal-modal-title"
+                  variant="h5"
+                  component="h2"
+                  className={"text-center"}
+              >
+                Badgez votre carte
+              </Typography>
+            </Box>
+        ): connexion.type === typeConnexion.PENDING && wsState.cardReader? (
+          <Box className={"flex align-middle justify-center p-4"}>
+            <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                className={"text-center"}
+            >
+              ici bouton pour connexion
+            </Typography>
+      </Box>
+      )
+            : connexion.type === typeConnexion.PENDING && !wsState.cardReader? (
           <Box className={"flex align-middle justify-center p-4"}>
             <CircularProgress />
           </Box>

@@ -31,12 +31,17 @@ export const connectionSlice = createSlice({
   name: "connection",
   initialState,
   reducers: {
-    logInPending: (state) => {
+    logInPending: (
+        state,
+        action: PayloadAction<string>
+    ) => {
       state.type = typeConnexion.PENDING;
       state.connect = {
         pending: true,
         logged: null,
-        user: {},
+        user: {
+          username: action.payload,
+        },
       };
     },
     logInSuccess: (

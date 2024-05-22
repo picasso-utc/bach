@@ -13,7 +13,7 @@ import {
 } from "./features/salelocation/salelocationSlice";
 import SalesLocation from "./components/salesLocation";
 import {categoryState, changeCategories, changeCategoriesSelected,} from "./features/category/categorySlice";
-import {logInSuccess, logOut, typeConnexion,} from "./features/connexion/connexionSlice";
+import {logInPending, logInSuccess, logOut, typeConnexion,} from "./features/connexion/connexionSlice";
 import {articleImport, articleState, changeArticles,} from "./features/articles/articleSlice";
 import Articles from "./components/articles";
 import PaymentBox from "./components/paymentBox";
@@ -87,10 +87,12 @@ function App() {
     if (lastMessage !== null) {
       let data = JSON.parse(lastMessage.data)
       if(data.type==="card"){
-        console.log(data.payload)
+        if(connexion.type === typeConnexion.LOGOUT){
+          dispatch(logInPending(data.payload))
+        }
       }
     }
-  }, [lastMessage]);
+  }, [connexion.type, dispatch, lastMessage]);
 
   const handleWebSocketChange = useCallback((connected:boolean) => {
     dispatch(changeConnectedState(connected))
