@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect} from "react";
 import "./App.css";
 import Header from "./components/header";
-import { useAppDispatch, useAppSelector } from "./app/hooks";
+import {useAppDispatch, useAppSelector} from "./app/hooks";
 import Connexion from "./components/connexion";
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 import Categories from "./components/categories";
 import {apiRequest, weezRequest} from "./api/apiClients";
 import {
@@ -12,31 +12,20 @@ import {
   saleLocationState,
 } from "./features/salelocation/salelocationSlice";
 import SalesLocation from "./components/salesLocation";
-import {
-  categoryState,
-  changeCategories,
-  changeCategoriesSelected,
-} from "./features/category/categorySlice";
-import {
-  logInSuccess,
-  logOut,
-  typeConnexion,
-} from "./features/connexion/connexionSlice";
-import {
-  articleImport,
-  articleState,
-  changeArticles,
-} from "./features/articles/articleSlice";
+import {categoryState, changeCategories, changeCategoriesSelected,} from "./features/category/categorySlice";
+import {logInSuccess, logOut, typeConnexion,} from "./features/connexion/connexionSlice";
+import {articleImport, articleState, changeArticles,} from "./features/articles/articleSlice";
 import Articles from "./components/articles";
 import PaymentBox from "./components/paymentBox";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import History from "./components/history";
-import { setArticles } from "./features/listarticle/listarticleSlice";
-import { emptyBasket } from "./features/basket/basketSlice";
-import { emptyPayment } from "./features/payment/paymentSlice";
-import { emptyHistory } from "./features/history/historySlice";
+import {setArticles} from "./features/listarticle/listarticleSlice";
+import {emptyBasket} from "./features/basket/basketSlice";
+import {emptyPayment} from "./features/payment/paymentSlice";
+import {emptyHistory} from "./features/history/historySlice";
 import {changeBlocage} from "./features/blocages/blocageSlice";
-import useWebSocket from 'react-use-websocket';
+import useWebSocket, {ReadyState} from 'react-use-websocket';
+import {changeConnectedState} from "./features/websocket/websocketSlice";
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -83,7 +72,10 @@ const theme = createTheme({
 
 function App() {
   const connexion = useAppSelector((state) => state.connexion);
-  const {lastMessage } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
+  const wsState = useAppSelector((state) => state.webSocket);
+  const dispatch = useAppDispatch();
+
+  const {lastMessage, readyState } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
       {
         shouldReconnect: (closeEvent) => true,
         reconnectAttempts: 10,
@@ -93,14 +85,26 @@ function App() {
 
   useEffect(() => {
     if (lastMessage !== null) {
-      console.log(lastMessage.data)
-      if(lastMessage.data.type==="card"){
-        console.log(lastMessage.data.payload)
+      let data = JSON.parse(lastMessage.data)
+      if(data.type==="card"){
+        console.log(data.payload)
       }
     }
   }, [lastMessage]);
 
-  const dispatch = useAppDispatch();
+  const handleWebSocketChange = useCallback((connected:boolean) => {
+    dispatch(changeConnectedState(connected))
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(readyState === ReadyState.OPEN){
+      handleWebSocketChange(true)
+    }
+  }, [readyState, handleWebSocketChange]);
+
+  useEffect(() => {
+    console.log(wsState)
+  }, [wsState]);
 
   const handleLogOut = useCallback(() => {
     dispatch(changeCategoriesSelected(-1));

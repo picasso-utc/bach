@@ -8,6 +8,7 @@ import historyReducer from "../features/history/historySlice";
 import listArticleReducer from "../features/listarticle/listarticleSlice";
 import paymentReducer from "../features/payment/paymentSlice";
 import blocageReducer from "../features/blocages/blocageSlice"
+import webSocketReducer from "../features/websocket/websocketSlice"
 
 export const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
     history: historyReducer,
     listArticle: listArticleReducer,
     payment: paymentReducer,
-    blocages: blocageReducer
+    blocages: blocageReducer,
+    webSocket: webSocketReducer
   },
 });
 
