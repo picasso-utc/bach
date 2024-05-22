@@ -83,11 +83,20 @@ const theme = createTheme({
 
 function App() {
   const connexion = useAppSelector((state) => state.connexion);
-  const {lastMessage } = useWebSocket('ws://127.0.0.1:8080/cards/listen');
+  const {lastMessage } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
+      {
+        shouldReconnect: (closeEvent) => true,
+        reconnectAttempts: 10,
+        reconnectInterval: 5000
+        //attemptNumber will be 0 the first time it attempts to reconnect, so this equation results in a reconnect pattern of 1 second, 2 seconds, 4 seconds, 8 seconds, and then caps at 10 seconds until the maximum number of attempts is reached
+      });
 
   useEffect(() => {
     if (lastMessage !== null) {
-      console.log(lastMessage)
+      console.log(lastMessage.data)
+      if(lastMessage.data.type){
+        console.log(lastMessage.data.payload)
+      }
     }
   }, [lastMessage]);
 
