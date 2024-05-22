@@ -142,7 +142,15 @@ export default function Connexion() {
               </Typography>
             </Box>
         ): connexion.type === typeConnexion.PENDING && wsState.cardReader? (
-          <Box className={"flex align-middle justify-center p-4 gap-4"}>
+          <Box className={"flex flex-col align-middle justify-center p-4 gap-4"}>
+            <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                className={"text-center mb-4"}
+            >
+              {"*".repeat(pin.length)}
+            </Typography>
             <Box className={"flex align-middle justify-center p-4 gap-4"}>
               <Button
                   variant="contained"
