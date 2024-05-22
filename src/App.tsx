@@ -83,15 +83,7 @@ const theme = createTheme({
 
 function App() {
   const connexion = useAppSelector((state) => state.connexion);
-  const [socketUrl, setSocketUrl] = useState('wss://127.0.0.1:8080/cards/listen');
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  }[readyState];
+  const {lastMessage } = useWebSocket('wss://127.0.0.1:8080/cards/listen');
 
   useEffect(() => {
     if (lastMessage !== null) {
