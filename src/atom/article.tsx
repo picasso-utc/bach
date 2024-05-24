@@ -15,7 +15,7 @@ const Article: React.FC<Props> = ({ article }) => {
     return (
       <Box
         className={
-          "aspect-square w-full rounded-2xl bg-white flex items-center justify-center border-border-article border-solid border-3 cursor-pointer p-2"
+          "aspect-square w-full rounded-2xl bg-white flex items-center justify-center border-border-article border-solid border-3 cursor-pointer p-2 overflow-hidden"
         }
         onClick={() => {
           dispatch(addToBasket(article));

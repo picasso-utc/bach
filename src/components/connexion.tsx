@@ -102,7 +102,9 @@ export default function Connexion() {
   },[dispatch]);
 
   const loginBadge = (pinFunc:string) => {
-    apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId, pin: pinFunc })
+      let badge_uid= connexion.connect.user.badgeId
+      dispatch(logInPending())
+    apiRequest("POST", "bach/login/badge", { badge_uid: badge_uid, pin: pinFunc })
         .then(function (res) {
           if (res !== undefined) {
             dispatch(
@@ -227,21 +229,21 @@ export default function Connexion() {
             </Typography>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("1"))}
               >
                 1
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("2"))}
               >
                 2
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("3"))}
               >
@@ -250,21 +252,21 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("4"))}
               >
                 4
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("5"))}
               >
                 5
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("6"))}
               >
@@ -273,21 +275,21 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("7"))}
               >
                 7
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("8"))}
               >
                 8
               </Button>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("9"))}
               >
@@ -296,7 +298,7 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="outlined"
+                  variant="contained"
                   color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("0"))}
               >
@@ -314,7 +316,7 @@ export default function Connexion() {
             </Box>
           </Box>
       )
-            : connexion.type === typeConnexion.PENDING && !wsState.cardReader? (
+            : connexion.type === typeConnexion.PENDING && connexion.connect.user.badgeId === undefined? (
           <Box className={"flex align-middle justify-center p-4"}>
             <CircularProgress />
           </Box>
