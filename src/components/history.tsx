@@ -93,10 +93,10 @@ export default function History() {
           {history.messageErreur === "" ? (
             <Grid container spacing={2} justifyContent="center">
               {history.lastPurchases!.length !== 0 ? (
-                <Box>
+                <Grid container justifyContent="center">
                   {history.lastPurchases!.map((purchase) => {
                     return (
-                        <Grid container justifyContent="center" key={purchase!.id}>
+                        <Grid container spacing={2} justifyContent="center" key={purchase!.id}>
                           <Grid
                             item
                             sm={2}
