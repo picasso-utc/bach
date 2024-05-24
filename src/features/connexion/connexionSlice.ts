@@ -46,14 +46,16 @@ export const connectionSlice = createSlice({
         state,
         action: PayloadAction<string>
     ) => {
-      state.type = typeConnexion.PENDING;
-      state.connect = {
-        pending: true,
-        logged: null,
-        user:{
-          badgeId:action.payload
+      return {
+        type:typeConnexion.PENDING,
+        connect: {
+          pending: true,
+          logged: null,
+          user: {
+            badgeId: action.payload
+          }
         }
-      };
+      }
     },
     logInSuccess: (
       state,
