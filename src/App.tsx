@@ -55,7 +55,7 @@ const theme = createTheme({
   typography: {
     categories: {
       fontWeight: 900, // or 'bold'
-      fontSize: "1.3rem",
+      fontSize: "1rem",
     },
     header: {
       fontWeight: 900, // or 'bold'
