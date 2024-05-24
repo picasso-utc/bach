@@ -101,6 +101,7 @@ export default function Connexion() {
   },[dispatch]);
 
   useEffect(() => {
+      console.log(connexion)
     if(pin.length===4){
       if(connexion.type===typeConnexion.PENDING){
         loginBadge(pin)
