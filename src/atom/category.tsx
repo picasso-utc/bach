@@ -21,7 +21,7 @@ const Category: React.FC<Props> = ({ category, last, index }) => {
   return (
     <Box
       className={
-        "flex align-middle justify-center cursor-pointer flex-grow p-4 border-b-full border-b-border-inter-categories" +
+        "flex align-middle justify-center cursor-pointer flex-grow p-2 border-b-full border-b-border-inter-categories" +
         (last ? "" : " border-b") +
         (index === categorySelectedIndex
           ? " bg-border-component"
