@@ -13,7 +13,7 @@ export default function Articles() {
   );
   useEffect(() => {}, [categorySelectedId]);
   return (
-    <Box className={"flex w-5/12 box-border"}>
+    <Box className={"flex w-1/2 box-border"}>
       <Grid container>
         {articles?.map(function (article, index) {
           if (article !== undefined) {

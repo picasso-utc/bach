@@ -13,7 +13,7 @@ export default function Categories() {
   return (
     <Box
       className={
-        "bg-background-component border-full border-border-component border-2 w-3/12 box-border rounded-lg overflow-hidden shadow-component"
+        "bg-background-component border-full border-border-component border-2 w-2/12 box-border rounded-lg overflow-hidden shadow-component"
       }
     >
       <Grid container justifyContent="center">
