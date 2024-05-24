@@ -65,7 +65,6 @@ export default function Connexion() {
   },[dispatch]);
 
   const loginBadge = (pinFunc:string) => {
-      console.log(connexion)
     apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId, pin: pinFunc })
         .then(function (res) {
           if (res !== undefined) {
@@ -101,7 +100,6 @@ export default function Connexion() {
   }
 
   useEffect(() => {
-      console.log(connexion)
     if(pin.length===4){
       if(connexion.type===typeConnexion.PENDING){
         loginBadge(pin)

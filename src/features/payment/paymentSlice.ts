@@ -4,6 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 // Define a type for the slice state
 const initialState: {
   success?: boolean;
+  pending?:boolean;
   solde?: number;
   messageError?: string;
 } = {};
@@ -16,6 +17,7 @@ export const paymentSlice = createSlice({
       state,
       action: PayloadAction<{
         success?: boolean;
+        pending?: boolean;
         solde?: number;
         messageError?: string;
       }>,

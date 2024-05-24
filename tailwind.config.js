@@ -22,7 +22,7 @@ module.exports = {
       red: "#ff3333",
       green: "#5cb85c",
       "border-article": "#e1899e",
-
+      orange: "#EF7B45",
       "gray-dark": "#273444",
       gray: "#8492a6",
       "gray-light": "#d3dce6",

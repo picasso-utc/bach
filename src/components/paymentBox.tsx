@@ -98,7 +98,7 @@ export default function PaymentBox() {
         </Grid>
         <Grid item sm={12}>
           <AnimatePresence>
-            {payment.success === undefined ? (
+            {payment.success === undefined && payment.pending === undefined ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -115,6 +115,23 @@ export default function PaymentBox() {
                   </Typography>
                 </Box>
               </motion.div>
+            ): payment.pending ?(
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className={"w-full"}
+                >
+                  <Box className={"bg-orange p-4 rounded-2xl"}>
+                    <Typography
+                        variant={"sub-header"}
+                        component="h2"
+                        className={"text-white"}
+                    >
+                      Transaction en cours ...
+                    </Typography>
+                  </Box>
+                </motion.div>
             ) : payment.success ? (
               <motion.div
                 initial={{ opacity: 0 }}

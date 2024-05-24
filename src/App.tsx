@@ -98,6 +98,9 @@ function App() {
 
   //------------------------ Fonctions de récupération de payement et d'historique -------------//
   function pay(badge_id:string) {
+      dispatch(setPayment({
+          pending: true
+      }))
     let items: [[number, number]?] = [];
     basket.forEach((article) => {
       items.push([article!.item.id, article!.quantity]);
@@ -106,7 +109,7 @@ function App() {
       dispatch(emptyBasket());
       dispatch(setPayment({
         success: false,
-        messageError: "Fait ta TIJ!",
+        messageError: "Utilisateur Bloqué!",
       }))
       setTimeout(() => {
         dispatch(emptyPayment());
