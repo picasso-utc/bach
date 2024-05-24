@@ -22,7 +22,7 @@ export default function Articles() {
                 item
                 sm={3}
                 key={index}
-                className={"pl-2 pr-2 pb-2 box-border"}
+                className={"pl-3 pr-3 pb-3 box-border"}
               >
                 <Article article={article} />
               </Grid>

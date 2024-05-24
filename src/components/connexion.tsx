@@ -20,6 +20,43 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
+import {
+    createTheme,
+    ThemeProvider,
+    alpha,
+    getContrastRatio,
+} from "@mui/material/styles";
+
+declare module "@mui/material/styles" {
+    interface Palette {
+        violet: Palette["primary"];
+    }
+
+    interface PaletteOptions {
+        violet?: PaletteOptions["primary"];
+    }
+}
+
+declare module "@mui/material/Button" {
+    interface ButtonPropsColorOverrides {
+        violet: true;
+    }
+}
+
+const violetBase = "#7486de";
+const violetMain = alpha(violetBase, 0.7);
+
+const theme = createTheme({
+    palette: {
+        violet: {
+            main: violetMain,
+            light: alpha(violetBase, 0.5),
+            dark: alpha(violetBase, 0.9),
+            contrastText:
+                getContrastRatio(violetMain, "#fff") > 4.5 ? "#fff" : "#111",
+        },
+    },
+});
 
 export default function Connexion() {
   const connexion = useAppSelector((state) => state.connexion);
@@ -112,6 +149,7 @@ export default function Connexion() {
   }, [pin]);
 
   return (
+      <ThemeProvider theme={theme}>
     <Modal
       open={connexion.type !== typeConnexion.SUCCESSFULL}
       aria-labelledby="modal-modal-title"
@@ -189,19 +227,22 @@ export default function Connexion() {
             </Typography>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("1"))}
               >
                 1
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("2"))}
               >
                 2
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("3"))}
               >
                 3
@@ -209,19 +250,22 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("4"))}
               >
                 4
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("5"))}
               >
                 5
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("6"))}
               >
                 6
@@ -229,19 +273,22 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("7"))}
               >
                 7
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("8"))}
               >
                 8
               </Button>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("9"))}
               >
                 9
@@ -249,7 +296,8 @@ export default function Connexion() {
             </Box>
             <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
-                  variant="contained"
+                  variant="outlined"
+                  color={"violet"}
                   onClick={() => setPin((pin)=>pin.concat("0"))}
               >
                 0
@@ -301,5 +349,6 @@ export default function Connexion() {
         )}
       </Box>
     </Modal>
+      </ThemeProvider>
   );
 }
