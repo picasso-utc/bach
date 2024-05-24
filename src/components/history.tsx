@@ -160,7 +160,7 @@ export default function History() {
                         </Grid>
                     );
                   })}
-                </Box>
+                </Grid>
               ) : (
                 <Grid item sm={12}>
                   <Typography
