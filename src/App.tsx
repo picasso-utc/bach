@@ -297,9 +297,10 @@ function App() {
       let data = JSON.parse(lastMessage.data)
       if(data.type==="card"){
         if(connexion.type === typeConnexion.LOGOUT){
+            console.log(data.payload)
           dispatch(logInTmpBadge(data.payload))
         }
-        else{
+        else if(connexion.type === typeConnexion.SUCCESSFULL){
           if(basket.length === 0){
             getLastPurchases(data.payload)
           }
