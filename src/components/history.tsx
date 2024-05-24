@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Grid from "@mui/material/Grid";
 import { Box, Button, Modal, Typography } from "@mui/material";
@@ -18,6 +18,7 @@ import { emptyPayment } from "../features/payment/paymentSlice";
 
 export default function History() {
   const history = useAppSelector((state) => state.history);
+  let [cancelHappening, setCancelHappening] = useState(false)
   const dispatch = useAppDispatch();
 
   function handleLogOut() {
@@ -64,6 +65,8 @@ export default function History() {
           dispatch(setHistory(errorHistory));
         }
       });
+    setTimeout(()=>{},)
+    setCancelHappening(false);
   }
 
   return (
@@ -91,17 +94,10 @@ export default function History() {
           {history.messageErreur === "" ? (
             <Grid container spacing={2} justifyContent="center">
               {history.lastPurchases!.length !== 0 ? (
-                <AnimatePresence>
+                <Box>
                   {history.lastPurchases!.map((purchase) => {
                     return (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className={"w-full"}
-                        key={purchase!.id}
-                      >
-                        <Grid container justifyContent="center">
+                        <Grid container justifyContent="center" key={purchase!.id}>
                           <Grid
                             item
                             sm={2}
@@ -154,16 +150,18 @@ export default function History() {
                               "border-b-full border-b-border-inter-categories border-b cursor-pointer"
                             }
                             onClick={() => {
-                              removePurchase(purchase!.id);
+                                if(!cancelHappening) {
+                                    setCancelHappening(true);
+                                    removePurchase(purchase!.id);
+                                }
                             }}
                           >
                             <DeleteIcon color={"error"} />
                           </Grid>
                         </Grid>
-                      </motion.div>
                     );
                   })}
-                </AnimatePresence>
+                </Box>
               ) : (
                 <Grid item sm={12}>
                   <Typography
