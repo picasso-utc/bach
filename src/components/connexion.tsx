@@ -64,7 +64,7 @@ export default function Connexion() {
         });
   },[dispatch]);
 
-  const loginBadge = useCallback((pinFunc:string) => {
+  const loginBadge = (pinFunc:string) => {
       console.log(connexion)
     apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId, pin: pinFunc })
         .then(function (res) {
@@ -98,7 +98,7 @@ export default function Connexion() {
           localStorage.removeItem("@auth_info");
         });
     // eslint-disable-next-line
-  },[dispatch]);
+  }
 
   useEffect(() => {
       console.log(connexion)
