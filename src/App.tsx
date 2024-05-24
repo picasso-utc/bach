@@ -13,7 +13,7 @@ import {
 } from "./features/salelocation/salelocationSlice";
 import SalesLocation from "./components/salesLocation";
 import {categoryState, changeCategories, changeCategoriesSelected,} from "./features/category/categorySlice";
-import {logInPending, logInSuccess, logOut, typeConnexion,} from "./features/connexion/connexionSlice";
+import { logInSuccess, logInTmpBadge, logOut, typeConnexion,} from "./features/connexion/connexionSlice";
 import {articleImport, articleState, changeArticles,} from "./features/articles/articleSlice";
 import Articles from "./components/articles";
 import PaymentBox from "./components/paymentBox";
@@ -21,8 +21,8 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import History from "./components/history";
 import {setArticles} from "./features/listarticle/listarticleSlice";
 import {emptyBasket} from "./features/basket/basketSlice";
-import {emptyPayment} from "./features/payment/paymentSlice";
-import {emptyHistory} from "./features/history/historySlice";
+import {emptyPayment, setPayment} from "./features/payment/paymentSlice";
+import {emptyHistory, history, setHistory} from "./features/history/historySlice";
 import {changeBlocage} from "./features/blocages/blocageSlice";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {changeConnectedState} from "./features/websocket/websocketSlice";
@@ -73,6 +73,10 @@ const theme = createTheme({
 function App() {
   const connexion = useAppSelector((state) => state.connexion);
   const wsState = useAppSelector((state) => state.webSocket);
+  const basket = useAppSelector((state) => state.basket);
+  const blockedUsers = useAppSelector((state)=>state.blocages);
+  const articles = useAppSelector((state) => state.listArticle);
+
   const dispatch = useAppDispatch();
 
   const {lastMessage, readyState } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
@@ -80,33 +84,7 @@ function App() {
         shouldReconnect: (closeEvent) => true,
         reconnectAttempts: 10,
         reconnectInterval: 5000
-        //attemptNumber will be 0 the first time it attempts to reconnect, so this equation results in a reconnect pattern of 1 second, 2 seconds, 4 seconds, 8 seconds, and then caps at 10 seconds until the maximum number of attempts is reached
       });
-
-  useEffect(() => {
-    if (lastMessage !== null) {
-      let data = JSON.parse(lastMessage.data)
-      if(data.type==="card"){
-        if(connexion.type === typeConnexion.LOGOUT){
-          dispatch(logInPending(data.payload))
-        }
-      }
-    }
-  }, [connexion.type, dispatch, lastMessage]);
-
-  const handleWebSocketChange = useCallback((connected:boolean) => {
-    dispatch(changeConnectedState(connected))
-  }, [dispatch]);
-
-  useEffect(() => {
-    if(readyState === ReadyState.OPEN){
-      handleWebSocketChange(true)
-    }
-  }, [readyState, handleWebSocketChange]);
-
-  useEffect(() => {
-    console.log(wsState)
-  }, [wsState]);
 
   const handleLogOut = useCallback(() => {
     dispatch(changeCategoriesSelected(-1));
@@ -118,32 +96,142 @@ function App() {
     localStorage.removeItem("@auth_info");
   }, [dispatch]);
 
-  useEffect(() => {
-    function getBlocages(){
-      apiRequest('GET',"blocages",{}).then(function(res){
-        dispatch(changeBlocage(res!.data))
-      }).catch(()=>{})
-    }
-
-    function getSalesLocation() {
-      weezRequest("POST", "/POSS3/getSalesLocations", {}, [
-        "FUND_ID",
-        "EVENT_ID",
-      ]).then(function (res) {
-        let salesLocationsList: [saleLocationState?] = [];
-        res!.data.forEach((salesLocation: saleLocationState) => {
-          salesLocationsList.push({
-            id: salesLocation.id,
-            name: salesLocation.name,
-            categories: salesLocation.categories,
+  //------------------------ Fonctions de récupération de payement et d'historique -------------//
+  function pay(badge_id:string) {
+    let items: [[number, number]?] = [];
+    basket.forEach((article) => {
+      items.push([article!.item.id, article!.quantity]);
+    });
+    if(blockedUsers.includes(badge_id)){
+      dispatch(emptyBasket());
+      dispatch(setPayment({
+        success: false,
+        messageError: "Fait ta TIJ!",
+      }))
+      setTimeout(() => {
+        dispatch(emptyPayment());
+      }, 1500);
+    }else {
+      weezRequest(
+          "POST",
+          "POSS3/transaction",
+          {badge_id: badge_id, obj_ids: items},
+          ["FUND_ID", "AUTH"],
+      )
+          .then((res) => {
+            dispatch(emptyBasket());
+            dispatch(
+                setPayment({
+                  success: true,
+                  solde: res!.data.solde,
+                }),
+            );
+            setTimeout(() => {
+              dispatch(emptyPayment());
+            }, 1500);
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              handleLogOut();
+            } else {
+              dispatch(emptyBasket());
+              dispatch(
+                  setPayment({
+                    success: false,
+                    messageError: err.response.data.error.message,
+                  }),
+              );
+              setTimeout(() => {
+                dispatch(emptyPayment());
+              }, 1500);
+            }
           });
-        });
-        dispatch(changeSalesLocations(salesLocationsList));
-      });
     }
+  }
 
-    function getCategories() {
-      weezRequest("POST", "/POSS3/getCategories", {}, ["FUND_ID", "AUTH"])
+
+  function getLastPurchases(badge_id:string) {
+    weezRequest("POST", "POSS3/getBuyerInfo", { badge_id: badge_id }, [
+      "FUND_ID",
+      "AUTH",
+    ])
+        .then((res) => {
+          let result: history = {};
+          result.firstname = res!.data.firstname;
+          result.lastname = res!.data.lastname;
+          result.solde = res!.data.solde;
+          result.badgeId = badge_id;
+          result.messageErreur = "";
+          let lastPurchases: [
+            {
+              id: number;
+              quantity: number;
+              price: number;
+              removed: boolean;
+              name: string;
+            }?,
+          ] = [];
+          res!.data.last_purchases.forEach(
+              (purchase: {
+                obj_id: number;
+                pur_id: number;
+                pur_price: number;
+                pur_qte: number;
+                pur_removed: boolean;
+              }) => {
+                if (!purchase.pur_removed && purchase.pur_qte > 0) {
+                  let article = articles.find((x) => x?.id === purchase.obj_id);
+                  lastPurchases.push({
+                    id: purchase.pur_id,
+                    quantity: purchase.pur_qte,
+                    price: purchase.pur_price,
+                    removed: purchase.pur_removed,
+                    name: article ? article.name : "Pas de nom trouvé",
+                  });
+                }
+              },
+          );
+          result.lastPurchases = lastPurchases;
+          dispatch(setHistory(result));
+        })
+        .catch((err) => {
+          if (err.response.status === 403) {
+            handleLogOut();
+          } else {
+            let errorHistory: history = {};
+            errorHistory.messageErreur = err.response.data;
+            dispatch(setHistory(errorHistory));
+          }
+        });
+  }
+
+  //------------------------ Fonctions de récupération de blocage, catégroies et articles -------------//
+
+  function getBlocages(){
+    apiRequest('GET',"blocages",{}).then(function(res){
+      dispatch(changeBlocage(res!.data))
+    }).catch(()=>{})
+  }
+
+  function getSalesLocation() {
+    weezRequest("POST", "/POSS3/getSalesLocations", {}, [
+      "FUND_ID",
+      "EVENT_ID",
+    ]).then(function (res) {
+      let salesLocationsList: [saleLocationState?] = [];
+      res!.data.forEach((salesLocation: saleLocationState) => {
+        salesLocationsList.push({
+          id: salesLocation.id,
+          name: salesLocation.name,
+          categories: salesLocation.categories,
+        });
+      });
+      dispatch(changeSalesLocations(salesLocationsList));
+    });
+  }
+
+  function getCategories() {
+    weezRequest("POST", "/POSS3/getCategories", {}, ["FUND_ID", "AUTH"])
         .then(function (res) {
           let categoryList: [categoryState?] = [];
           res!.data.forEach((category: categoryState) => {
@@ -154,7 +242,7 @@ function App() {
             });
           });
           categoryList.sort((a, b) =>
-            a!.name > b!.name ? 1 : b!.name > a!.name ? -1 : 0,
+              a!.name > b!.name ? 1 : b!.name > a!.name ? -1 : 0,
           );
           dispatch(changeCategories(categoryList));
         })
@@ -163,10 +251,10 @@ function App() {
             handleLogOut();
           }
         });
-    }
+  }
 
-    function getArticles() {
-      weezRequest("POST", "/POSS3/getArticles", {}, ["FUND_ID", "AUTH"])
+  function getArticles() {
+    weezRequest("POST", "/POSS3/getArticles", {}, ["FUND_ID", "AUTH"])
         .then(function (res) {
           let articlesDictionary: { [key: number]: [articleState?] } = {};
           let articlesList: [articleState?] = [];
@@ -201,8 +289,41 @@ function App() {
             handleLogOut();
           }
         });
-    }
+  }
 
+  //--------------------------------------------- Use Effects ----------------------------------------------//
+  useEffect(() => {
+    if (lastMessage !== null) {
+      let data = JSON.parse(lastMessage.data)
+      if(data.type==="card"){
+        if(connexion.type === typeConnexion.LOGOUT){
+          dispatch(logInTmpBadge(data.payload))
+        }
+        else{
+          if(basket.length === 0){
+            getLastPurchases(data.payload)
+          }
+          else{
+            pay(data.payload)
+          }
+        }
+      }
+    }
+    // eslint-disable-next-line
+  }, [lastMessage]);
+
+  useEffect(() => {
+    if(readyState === ReadyState.OPEN){
+      dispatch(changeConnectedState(true))
+    }
+    // eslint-disable-next-line
+  }, [readyState]);
+
+  useEffect(() => {
+    console.log(wsState)
+  }, [wsState]);
+
+  useEffect(() => {
     const connexionInfo = localStorage.getItem("@auth_info");
     if (connexionInfo != null) {
       const connexionInfoParsed = JSON.parse(connexionInfo);
@@ -222,7 +343,10 @@ function App() {
       getArticles();
 
     }
+    // eslint-disable-next-line
   }, [connexion, dispatch, handleLogOut]);
+
+  //--------------------------------------------------------------------------//
 
   return (
     <ThemeProvider theme={theme}>

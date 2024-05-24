@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PinIcon from "@mui/icons-material/Pin";
@@ -29,51 +29,87 @@ export default function Connexion() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState({ title: "", message: "" });
 
-  useEffect(() => {
-    function loginCas(casFunc:string,pinFunc:string) {
-      dispatch(logInPending(casFunc));
-      apiRequest("POST", "bach/login/cas", { cas: casFunc, pin: pinFunc })
-          .then(function (res) {
-            if (res !== undefined) {
-              dispatch(
-                  logInSuccess({
-                    username: res.data.username,
-                    sessionId: res.data.sessionid,
-                  }),
-              );
-              localStorage.setItem(
-                  "@auth_info",
-                  JSON.stringify({
-                    username: res.data.username,
-                    sessionId: res.data.sessionid,
-                  }),
-              );
-            } else {
-              setError({
-                title: "Reponse du serveur vide",
-                message:
-                    "Le serveur n'as rien renvoyer après votre demande de connexion",
-              });
-              dispatch(logInFailed());
-              localStorage.removeItem("@auth_info");
-            }
-          })
-          .catch(function (error) {
-            setError(error.response.data);
+  const loginCas = useCallback((casFunc:string, pinFunc:string) => {
+    dispatch(logInPending());
+    apiRequest("POST", "bach/login/cas", { cas: casFunc, pin: pinFunc })
+        .then(function (res) {
+          if (res !== undefined) {
+            dispatch(
+                logInSuccess({
+                  username: res.data.username,
+                  sessionId: res.data.sessionid,
+                }),
+            );
+            localStorage.setItem(
+                "@auth_info",
+                JSON.stringify({
+                  username: res.data.username,
+                  sessionId: res.data.sessionid,
+                }),
+            );
+          } else {
+            setError({
+              title: "Reponse du serveur vide",
+              message:
+                  "Le serveur n'as rien renvoyer après votre demande de connexion",
+            });
             dispatch(logInFailed());
             localStorage.removeItem("@auth_info");
-          });
-    }
+          }
+        })
+        .catch(function (error) {
+          setError(error.response.data);
+          dispatch(logInFailed());
+          localStorage.removeItem("@auth_info");
+        });
+  },[dispatch]);
 
+  const loginBadge = useCallback((pinFunc:string) => {
+    apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId!, pin: pinFunc })
+        .then(function (res) {
+          if (res !== undefined) {
+            dispatch(
+                logInSuccess({
+                  username: res.data.username,
+                  sessionId: res.data.sessionid,
+                }),
+            );
+            localStorage.setItem(
+                "@auth_info",
+                JSON.stringify({
+                  username: res.data.username,
+                  sessionId: res.data.sessionid,
+                }),
+            );
+          } else {
+            setError({
+              title: "Reponse du serveur vide",
+              message:
+                  "Le serveur n'as rien renvoyer après votre demande de connexion",
+            });
+            dispatch(logInFailed());
+            localStorage.removeItem("@auth_info");
+          }
+        })
+        .catch(function (error) {
+          setError(error.response.data);
+          dispatch(logInFailed());
+          localStorage.removeItem("@auth_info");
+        });
+    // eslint-disable-next-line
+  },[dispatch]);
+
+  useEffect(() => {
     if(pin.length===4){
       if(connexion.type===typeConnexion.PENDING){
-        loginCas(connexion.connect.user.username!,pin)
+        loginBadge(pin)
       }
       else{
         loginCas(cas,pin)
       }
     }
-  }, [cas, connexion.connect.user.username, connexion.type, dispatch, pin]);
+    // eslint-disable-next-line
+  }, [pin]);
 
   return (
     <Modal

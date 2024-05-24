@@ -16,6 +16,7 @@ interface connectionState {
     user: {
       sessionId?: string;
       username?: string;
+      badgeId?:string;
     };
   };
 }
@@ -32,6 +33,16 @@ export const connectionSlice = createSlice({
   initialState,
   reducers: {
     logInPending: (
+        state
+    ) => {
+      state.type = typeConnexion.PENDING;
+      state.connect = {
+        pending: true,
+        logged: null,
+        user:{}
+      };
+    },
+    logInTmpBadge: (
         state,
         action: PayloadAction<string>
     ) => {
@@ -39,9 +50,9 @@ export const connectionSlice = createSlice({
       state.connect = {
         pending: true,
         logged: null,
-        user: {
-          username: action.payload,
-        },
+        user:{
+          badgeId:action.payload
+        }
       };
     },
     logInSuccess: (
@@ -76,7 +87,7 @@ export const connectionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { logInPending, logInSuccess, logInFailed, logOut } =
+export const { logInPending,logInTmpBadge , logInSuccess, logInFailed, logOut } =
   connectionSlice.actions;
 
 export default connectionSlice.reducer;
