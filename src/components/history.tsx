@@ -10,7 +10,6 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { weezRequest } from "../api/apiClients";
 import { logOut } from "../features/connexion/connexionSlice";
-import { AnimatePresence, motion } from "framer-motion";
 import { changeCategoriesSelected } from "../features/category/categorySlice";
 import { changeSelectedLocation } from "../features/salelocation/salelocationSlice";
 import { emptyBasket } from "../features/basket/basketSlice";
