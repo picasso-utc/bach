@@ -185,9 +185,9 @@ export default function Connexion() {
                 component="h2"
                 className={"text-center mb-4"}
             >
-              {"*".repeat(pin.length)}
+              PIN: {"*".repeat(pin.length)}
             </Typography>
-            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
                   variant="contained"
                   onClick={() => setPin((pin)=>pin.concat("1"))}
@@ -207,7 +207,7 @@ export default function Connexion() {
                 3
               </Button>
             </Box>
-            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
                   variant="contained"
                   onClick={() => setPin((pin)=>pin.concat("4"))}
@@ -227,7 +227,7 @@ export default function Connexion() {
                 6
               </Button>
             </Box>
-            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
                   variant="contained"
                   onClick={() => setPin((pin)=>pin.concat("7"))}
@@ -247,7 +247,7 @@ export default function Connexion() {
                 9
               </Button>
             </Box>
-            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
                   variant="contained"
                   onClick={() => setPin((pin)=>pin.concat("0"))}
@@ -255,7 +255,7 @@ export default function Connexion() {
                 0
               </Button>
             </Box>
-            <Box className={"flex align-middle justify-center p-4 gap-4"}>
+            <Box className={"flex align-middle justify-center my-2 gap-4"}>
               <Button
                   variant="contained"
                   color="error"
