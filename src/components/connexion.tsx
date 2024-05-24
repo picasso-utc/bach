@@ -217,7 +217,7 @@ export default function Connexion() {
                 Badgez votre carte
               </Typography>
             </Box>
-        ): connexion.type === typeConnexion.PENDING && wsState.cardReader? (
+        ): connexion.type === typeConnexion.PENDING && connexion.connect.user.badgeId !== undefined? (
           <Box className={"flex flex-col align-middle justify-center p-4 gap-4"}>
             <Typography
                 id="modal-modal-title"
