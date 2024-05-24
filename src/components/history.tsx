@@ -54,6 +54,7 @@ export default function History() {
         newHistory.lastPurchases = resultPurchases;
         newHistory.solde! += history.lastPurchases![removedIndex]!.price;
         dispatch(setHistory(newHistory));
+        setCancelHappening(false);
       })
       .catch((err) => {
         if (err.response.status === 403) {
@@ -63,9 +64,8 @@ export default function History() {
           errorHistory.messageErreur = err.response.data;
           dispatch(setHistory(errorHistory));
         }
+        setCancelHappening(false);
       });
-    setTimeout(()=>{},)
-    setCancelHappening(false);
   }
 
   return (
