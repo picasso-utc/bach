@@ -65,7 +65,8 @@ export default function Connexion() {
   },[dispatch]);
 
   const loginBadge = useCallback((pinFunc:string) => {
-    apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId!, pin: pinFunc })
+      console.log(connexion.connect.user.badgeId)
+    apiRequest("POST", "bach/login/badge", { badge_uid: connexion.connect.user.badgeId, pin: pinFunc })
         .then(function (res) {
           if (res !== undefined) {
             dispatch(
