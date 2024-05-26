@@ -24,7 +24,7 @@ export default function Articles() {
                 key={index}
                 className={"pl-3 pr-3 pb-3 box-border"}
               >
-                <Article article={article} />
+                <Article article={article}  />
               </Grid>
             );
           } else {

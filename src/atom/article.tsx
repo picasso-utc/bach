@@ -20,6 +20,7 @@ const Article: React.FC<Props> = ({ article }) => {
         onClick={() => {
           dispatch(addToBasket(article));
         }}
+        key={article.id}
       >
         <Typography
           variant="subtitle1"
@@ -42,6 +43,7 @@ const Article: React.FC<Props> = ({ article }) => {
         }}
         alt={article.name}
         src={article.image_url}
+        key={article.id}
       />
     );
   }

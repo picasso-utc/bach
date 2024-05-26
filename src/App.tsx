@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import "./App.css";
 import Header from "./components/header";
 import {useAppDispatch, useAppSelector} from "./app/hooks";
@@ -76,6 +76,7 @@ function App() {
   const basket = useAppSelector((state) => state.basket);
   const blockedUsers = useAppSelector((state)=>state.blocages);
   const articles = useAppSelector((state) => state.listArticle);
+  const [actionHappening,setActionHappenening] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -114,6 +115,7 @@ function App() {
       setTimeout(() => {
         dispatch(emptyPayment());
       }, 1500);
+      setActionHappenening(false);
     }else {
       weezRequest(
           "POST",
@@ -132,6 +134,7 @@ function App() {
             setTimeout(() => {
               dispatch(emptyPayment());
             }, 1500);
+            setActionHappenening(false);
           })
           .catch((err) => {
             if (err.response.status === 403) {
@@ -148,6 +151,7 @@ function App() {
                 dispatch(emptyPayment());
               }, 1500);
             }
+            setActionHappenening(false);
           });
     }
   }
@@ -196,6 +200,7 @@ function App() {
           );
           result.lastPurchases = lastPurchases;
           dispatch(setHistory(result));
+          setActionHappenening(false);
         })
         .catch((err) => {
           if (err.response.status === 403) {
@@ -205,6 +210,7 @@ function App() {
             errorHistory.messageErreur = err.response.data;
             dispatch(setHistory(errorHistory));
           }
+          setActionHappenening(false);
         });
   }
 
@@ -296,19 +302,20 @@ function App() {
 
   //--------------------------------------------- Use Effects ----------------------------------------------//
   useEffect(() => {
-    if (lastMessage !== null) {
+    if (lastMessage !== null && !actionHappening) {
       let data = JSON.parse(lastMessage.data)
       if(data.type==="card"){
         if(connexion.type === typeConnexion.LOGOUT){
-            console.log(data.payload)
           dispatch(logInTmpBadge(data.payload))
         }
         else if(connexion.type === typeConnexion.SUCCESSFULL){
           if(basket.length === 0){
-            getLastPurchases(data.payload)
+              setActionHappenening(true);
+              getLastPurchases(data.payload);
           }
           else{
-            pay(data.payload)
+              setActionHappenening(true);
+              pay(data.payload);
           }
         }
       }
