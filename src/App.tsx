@@ -352,10 +352,6 @@ function App() {
   }, [readyState]);
 
   useEffect(() => {
-    console.log(wsState)
-  }, [wsState]);
-
-  useEffect(() => {
     const connexionInfo = localStorage.getItem("@auth_info");
     if (connexionInfo != null) {
       const connexionInfoParsed = JSON.parse(connexionInfo);
