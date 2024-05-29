@@ -326,8 +326,7 @@ function App() {
   useEffect(() => {
     if(readyState === ReadyState.OPEN){
         jcapRequest('GET','cards/controller').then(function(res){
-            res = JSON.parse(res!.data)
-            console.log(res)
+            console.log(res!.data)
         })
       dispatch(changeConnectedState(true))
     }
