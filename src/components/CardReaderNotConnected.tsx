@@ -31,7 +31,7 @@ export default function CardReaderNotConnected() {
                 </Typography>
                 <Box className={"flex align-middle justify-center p-4"}>
                     {!wsState.connected ?
-                        <Box className={"flex align-middle justify-center"}>
+                        <Box className={"flex align-middle justify-center flex-col"}>
                             <Typography
                                 id="modal-modal-title"
                                 variant="h5"
