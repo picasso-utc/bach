@@ -78,10 +78,11 @@ function App() {
   const blockedUsers = useAppSelector((state)=>state.blocages);
   const articles = useAppSelector((state) => state.listArticle);
   const [actionHappening,setActionHappenening] = useState(false);
+  const [reconnectAttempt, setReconnectAttempt] = useState(false)
 
   const dispatch = useAppDispatch();
 
-  const {lastMessage, readyState } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
+  const {lastMessage, readyState } = useWebSocket(reconnectAttempt ? 'ws://127.0.0.1:8080/tmpReconnectUrl' : 'ws://127.0.0.1:8080/cards/listen',
       {
         shouldReconnect: (closeEvent) => true,
         reconnectAttempts: wsState.reconnectAttempts,
@@ -376,6 +377,13 @@ function App() {
     }
     // eslint-disable-next-line
   }, [connexion, dispatch, handleLogOut]);
+
+
+  // Change l'url du websocket pour 1 seconde pour forcer la reconnection
+    useEffect(() => {
+        setReconnectAttempt(true)
+        setTimeout(()=>{setReconnectAttempt(false)},1000)
+    }, [wsState.reconnectAttempts]);
 
   //--------------------------------------------------------------------------//
 
