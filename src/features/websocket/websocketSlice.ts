@@ -5,11 +5,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface webSocketState {
     connected: boolean;
     cardReader: boolean;
+    shouldReconnect: boolean
 }
 
 const initialState: webSocketState = {
     connected: false,
-    cardReader: false
+    cardReader: false,
+    shouldReconnect: true
 };
 
 export const webSocketSlice = createSlice({
@@ -28,11 +30,17 @@ export const webSocketSlice = createSlice({
         ) => {
             state.cardReader=action.payload
         },
+        changeShouldReconnect:(
+            state,
+            action: PayloadAction<boolean>,
+        )=> {
+            state.shouldReconnect = action.payload
+        }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeConnectedState,changeCardReaderState} =
+export const { changeConnectedState,changeCardReaderState, changeShouldReconnect} =
     webSocketSlice.actions;
 
 export default webSocketSlice.reducer;

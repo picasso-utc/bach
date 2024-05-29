@@ -1,13 +1,16 @@
 import React from "react";
 import {typeConnexion} from "../features/connexion/connexionSlice";
 import {
-    Box,
+    Box, Button,
     Modal, Typography
 } from "@mui/material";
-import {useAppSelector} from "../app/hooks";
+import {useAppDispatch, useAppSelector} from "../app/hooks";
+import {changeShouldReconnect} from "../features/websocket/websocketSlice";
 export default function CardReaderNotConnected() {
     const connexion = useAppSelector((state) => state.connexion);
     const wsState = useAppSelector((state) => state.webSocket);
+    const dispatch = useAppDispatch();
+
     return (
         <Modal
             open={connexion.type === typeConnexion.SUCCESSFULL && (!wsState.connected || !wsState.cardReader)}
@@ -24,18 +27,30 @@ export default function CardReaderNotConnected() {
                     component="h2"
                     className={"text-center"}
                 >
-                    - Pas de badgeuse connecté -
+                     Problème de badgeuse
                 </Typography>
-                <Box className={"flex align-middle justify-center p-4 gap-2"}>
+                <Box className={"flex align-middle justify-center p-4"}>
                     {!wsState.connected ?
-                        <Typography
-                            id="modal-modal-title"
-                            variant="h5"
-                            component="h2"
-                            className={"text-center"}
-                        >
-                            Impossible de se connecter au WebSocket pour lire les cart étudiantes
-                        </Typography>
+                        <Box className={"flex align-middle justify-center"}>
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h5"
+                                component="h2"
+                                className={"text-center"}
+                            >
+                                Impossible de se connecter au WebSocket pour lire les cartes étudiantes
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() => {
+                                    dispatch(changeShouldReconnect(false));
+                                    setTimeout(()=>{changeShouldReconnect(true)},1000)
+                                }}
+                            >
+                                Réessayer de force la reconnection au WebSocket
+                            </Button>
+                        </Box>
                     : !wsState.cardReader ?
                         <Typography
                             id="modal-modal-title"

@@ -81,7 +81,7 @@ function App() {
 
   const dispatch = useAppDispatch();
 
-  const {lastMessage, readyState } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
+  const {lastMessage, readyState } = useWebSocket(wsState.shouldReconnect ? 'ws://127.0.0.1:8080/cards/listen' : '',
       {
         shouldReconnect: (closeEvent) => true,
         reconnectAttempts: 20,
