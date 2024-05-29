@@ -73,3 +73,28 @@ export async function weezRequest(
     console.log(error.config);
   });
 }
+
+export async function jcapRequest(
+    method: string,
+    path: string,
+    data?: object,
+    params?: { [key: string | number | symbol]: any },
+) {
+  return axios({
+    method: method,
+    baseURL: config.JCAP_URL,
+    url: path,
+    params: params,
+    data: data,
+  }).catch(function (error) {
+    if (error.response) {
+      throw error;
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+  });
+}

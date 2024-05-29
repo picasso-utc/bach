@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "./app/hooks";
 import Connexion from "./components/connexion";
 import {Box} from "@mui/material";
 import Categories from "./components/categories";
-import {apiRequest, weezRequest} from "./api/apiClients";
+import {apiRequest, jcapRequest, weezRequest} from "./api/apiClients";
 import {
   changeSalesLocations,
   changeSelectedLocation,
@@ -325,6 +325,10 @@ function App() {
 
   useEffect(() => {
     if(readyState === ReadyState.OPEN){
+        jcapRequest('GET','card/controller').then(function(res){
+            res = JSON.parse(res!.data)
+            console.log(res)
+        })
       dispatch(changeConnectedState(true))
     }
     // eslint-disable-next-line
