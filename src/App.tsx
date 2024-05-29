@@ -381,8 +381,12 @@ function App() {
 
   // Change l'url du websocket pour 1 seconde pour forcer la reconnection
     useEffect(() => {
-        setReconnectAttempt(true)
-        setTimeout(()=>{setReconnectAttempt(false)},1000)
+        if(wsState.reconnectAttempts !== 20) {
+            setReconnectAttempt(true)
+            setTimeout(() => {
+                setReconnectAttempt(false)
+            }, 1000)
+        }
     }, [wsState.reconnectAttempts]);
 
   //--------------------------------------------------------------------------//
