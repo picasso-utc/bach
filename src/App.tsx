@@ -25,7 +25,7 @@ import {emptyPayment, setPayment} from "./features/payment/paymentSlice";
 import {emptyHistory, history, setHistory} from "./features/history/historySlice";
 import {changeBlocage} from "./features/blocages/blocageSlice";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
-import {changeConnectedState} from "./features/websocket/websocketSlice";
+import {changeCardReaderState, changeConnectedState} from "./features/websocket/websocketSlice";
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -326,8 +326,13 @@ function App() {
   useEffect(() => {
     if(readyState === ReadyState.OPEN){
         jcapRequest('GET','cards/controller').then(function(res){
-            console.log(res!.data)
-        })
+            if(res!.data.state === "CONNECTED"){
+                dispatch(changeCardReaderState(true))
+            }
+            else if(res!.data.state === "NOT_CONNECTED") {
+                dispatch(changeCardReaderState(false))
+            }
+        }).catch((e)=>{console.log(e)})
       dispatch(changeConnectedState(true))
     }
     // eslint-disable-next-line

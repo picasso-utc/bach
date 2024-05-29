@@ -9,7 +9,7 @@ export interface webSocketState {
 
 const initialState: webSocketState = {
     connected: false,
-    cardReader: true
+    cardReader: false
 };
 
 export const webSocketSlice = createSlice({
@@ -26,7 +26,7 @@ export const webSocketSlice = createSlice({
             state,
             action: PayloadAction<boolean>,
         ) => {
-            state.connected=action.payload
+            state.cardReader=action.payload
         },
     },
 });
