@@ -26,6 +26,7 @@ import {emptyHistory, history, setHistory} from "./features/history/historySlice
 import {changeBlocage} from "./features/blocages/blocageSlice";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {changeCardReaderState, changeConnectedState} from "./features/websocket/websocketSlice";
+import CardReaderNotConnected from "./components/CardReaderNotConnected";
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -83,7 +84,7 @@ function App() {
   const {lastMessage, readyState } = useWebSocket('ws://127.0.0.1:8080/cards/listen',
       {
         shouldReconnect: (closeEvent) => true,
-        reconnectAttempts: 10,
+        reconnectAttempts: 20,
         reconnectInterval: 5000
       });
 
@@ -319,6 +320,14 @@ function App() {
           }
         }
       }
+      else if (data.type === "state"){
+          if(data.payload.state === "CONNECTED"){
+              dispatch(changeCardReaderState(true))
+          }
+          else if(data.payload.state === "NOT_CONNECTED") {
+              dispatch(changeCardReaderState(false))
+          }
+      }
     }
     // eslint-disable-next-line
   }, [lastMessage]);
@@ -334,6 +343,9 @@ function App() {
             }
         }).catch((e)=>{console.log(e)})
       dispatch(changeConnectedState(true))
+    }
+    else{
+        dispatch(changeConnectedState(false))
     }
     // eslint-disable-next-line
   }, [readyState]);
@@ -372,6 +384,7 @@ function App() {
       <div className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page h-screen overflow-y-scroll">
         <History />
         <Connexion />
+        <CardReaderNotConnected />
         <SalesLocation />
         <Header />
         <Box className={"p-4 box-border flex items-start justify-start"}>
