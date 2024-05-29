@@ -5,7 +5,7 @@ import {
     Modal, Typography
 } from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
-import {changeShouldReconnect} from "../features/websocket/websocketSlice";
+import {addReconnectAttempts} from "../features/websocket/websocketSlice";
 export default function CardReaderNotConnected() {
     const connexion = useAppSelector((state) => state.connexion);
     const wsState = useAppSelector((state) => state.webSocket);
@@ -44,8 +44,7 @@ export default function CardReaderNotConnected() {
                                 variant="contained"
                                 color="error"
                                 onClick={() => {
-                                    dispatch(changeShouldReconnect(false));
-                                    setTimeout(()=>{changeShouldReconnect(true)},1000)
+                                    dispatch(addReconnectAttempts());
                                 }}
                             >
                                 Réessayer de force la reconnection au WebSocket

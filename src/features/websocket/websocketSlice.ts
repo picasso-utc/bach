@@ -5,13 +5,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface webSocketState {
     connected: boolean;
     cardReader: boolean;
-    shouldReconnect: boolean
+    reconnectAttempts: number
 }
 
 const initialState: webSocketState = {
     connected: false,
     cardReader: false,
-    shouldReconnect: true
+    reconnectAttempts: 20
 };
 
 export const webSocketSlice = createSlice({
@@ -30,17 +30,16 @@ export const webSocketSlice = createSlice({
         ) => {
             state.cardReader=action.payload
         },
-        changeShouldReconnect:(
+        addReconnectAttempts:(
             state,
-            action: PayloadAction<boolean>,
         )=> {
-            state.shouldReconnect = action.payload
+            state.reconnectAttempts += 20
         }
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeConnectedState,changeCardReaderState, changeShouldReconnect} =
+export const { changeConnectedState,changeCardReaderState, addReconnectAttempts} =
     webSocketSlice.actions;
 
 export default webSocketSlice.reducer;
