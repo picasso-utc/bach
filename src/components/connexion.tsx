@@ -223,7 +223,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("1"))}
-                                        className={"p-4 aspect-square"}
+                                        className={"p-2 aspect-square"}
                                     >
                                         1
                                     </Button>
@@ -231,6 +231,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("2"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         2
                                     </Button>
@@ -238,6 +239,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("3"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         3
                                     </Button>
@@ -247,6 +249,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("4"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         4
                                     </Button>
@@ -254,6 +257,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("5"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         5
                                     </Button>
@@ -261,6 +265,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("6"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         6
                                     </Button>
@@ -270,6 +275,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("7"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         7
                                     </Button>
@@ -277,6 +283,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("8"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         8
                                     </Button>
@@ -284,6 +291,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("9"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         9
                                     </Button>
@@ -293,6 +301,7 @@ export default function Connexion() {
                                         variant="contained"
                                         color={"violet"}
                                         onClick={() => setPin((pin) => pin.concat("0"))}
+                                        className={"p-2 aspect-square"}
                                     >
                                         0
                                     </Button>
