@@ -1,11 +1,9 @@
 import React from "react";
 import {typeConnexion} from "../features/connexion/connexionSlice";
-import {
-    Box, Button,
-    Modal, Typography
-} from "@mui/material";
+import {Box, Button, Modal, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {addReconnectAttempts} from "../features/websocket/websocketSlice";
+
 export default function CardReaderNotConnected() {
     const connexion = useAppSelector((state) => state.connexion);
     const wsState = useAppSelector((state) => state.webSocket);
@@ -27,7 +25,7 @@ export default function CardReaderNotConnected() {
                     component="h2"
                     className={"text-center"}
                 >
-                     Problème de badgeuse
+                    Problème de badgeuse
                 </Typography>
                 <Box className={"flex align-middle justify-center p-4"}>
                     {!wsState.connected ?
@@ -50,24 +48,24 @@ export default function CardReaderNotConnected() {
                                 Réessayer de force la reconnection au WebSocket
                             </Button>
                         </Box>
-                    : !wsState.cardReader ?
-                        <Typography
-                            id="modal-modal-title"
-                            variant="h5"
-                            component="h2"
-                            className={"text-center"}
-                        >
-                            Aucune bageuse n'est connecter ou il est impossible de les récupérer
-                        </Typography>
-                    :
-                        <Typography
-                            id="modal-modal-title"
-                            variant="h5"
-                            component="h2"
-                            className={"text-center"}
-                        >
-                            Une erreur avec le server local qui gère la badgeuse
-                        </Typography>
+                        : !wsState.cardReader ?
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h5"
+                                component="h2"
+                                className={"text-center"}
+                            >
+                                Aucune bageuse n'est connecter ou il est impossible de les récupérer
+                            </Typography>
+                            :
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h5"
+                                component="h2"
+                                className={"text-center"}
+                            >
+                                Une erreur avec le server local qui gère la badgeuse
+                            </Typography>
                     }
 
                 </Box>
