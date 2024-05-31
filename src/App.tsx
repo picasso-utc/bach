@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import "./App.css";
 import Header from "./components/header";
 import {useAppDispatch, useAppSelector} from "./app/hooks";

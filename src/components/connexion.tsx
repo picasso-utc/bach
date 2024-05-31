@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PinIcon from "@mui/icons-material/Pin";
