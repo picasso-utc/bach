@@ -66,42 +66,43 @@ export default function Connexion() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState({ title: "", message: "" });
 
-  const loginCas = useCallback((casFunc:string, pinFunc:string) => {
-    dispatch(logInPending());
-    apiRequest("POST", "bach/login/cas", { cas: casFunc, pin: pinFunc })
-        .then(function (res) {
-          if (res !== undefined) {
-            dispatch(
-                logInSuccess({
-                  username: res.data.username,
-                  sessionId: res.data.sessionid,
-                }),
-            );
-            localStorage.setItem(
-                "@auth_info",
-                JSON.stringify({
-                  username: res.data.username,
-                  sessionId: res.data.sessionid,
-                }),
-            );
-          } else {
-            setError({
-              title: "Reponse du serveur vide",
-              message:
-                  "Le serveur n'as rien renvoyer après votre demande de connexion",
-            });
-            dispatch(logInFailed());
-            localStorage.removeItem("@auth_info");
-          }
-        })
-        .catch(function (error) {
-          setError(error.response.data);
-          dispatch(logInFailed());
-          localStorage.removeItem("@auth_info");
-        });
-  },[dispatch]);
 
-  const loginBadge = (pinFunc:string) => {
+  function loginCas(casFunc:string, pinFunc:string){
+      dispatch(logInPending());
+      apiRequest("POST", "bach/login/cas", { cas: casFunc, pin: pinFunc })
+          .then(function (res) {
+              if (res !== undefined) {
+                  dispatch(
+                      logInSuccess({
+                          username: res.data.username,
+                          sessionId: res.data.sessionid,
+                      }),
+                  );
+                  localStorage.setItem(
+                      "@auth_info",
+                      JSON.stringify({
+                          username: res.data.username,
+                          sessionId: res.data.sessionid,
+                      }),
+                  );
+              } else {
+                  setError({
+                      title: "Reponse du serveur vide",
+                      message:
+                          "Le serveur n'as rien renvoyer après votre demande de connexion",
+                  });
+                  dispatch(logInFailed());
+                  localStorage.removeItem("@auth_info");
+              }
+          })
+          .catch(function (error) {
+              setError(error.response.data);
+              dispatch(logInFailed());
+              localStorage.removeItem("@auth_info");
+          });
+  }
+
+  function loginBadge(pinFunc:string) {
       let badge_uid= connexion.connect.user.badgeId
       dispatch(logInPending())
     apiRequest("POST", "bach/login/badge", { badge_uid: badge_uid, pin: pinFunc })
@@ -135,16 +136,19 @@ export default function Connexion() {
           dispatch(logInFailed());
           localStorage.removeItem("@auth_info");
         });
-    // eslint-disable-next-line
   }
 
   useEffect(() => {
     if(pin.length===4){
       if(connexion.type===typeConnexion.PENDING){
         loginBadge(pin)
+        setCas("");
+        setPin("");
       }
       else{
         loginCas(cas,pin)
+        setCas("");
+        setPin("");
       }
     }
     // eslint-disable-next-line

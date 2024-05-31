@@ -89,7 +89,7 @@ function App() {
         reconnectInterval: 5000
       });
 
-  const handleLogOut = useCallback(() => {
+  function handleLogOut(){
     dispatch(changeCategoriesSelected(-1));
     dispatch(changeSelectedLocation(-1));
     dispatch(emptyBasket());
@@ -97,7 +97,7 @@ function App() {
     dispatch(emptyHistory());
     dispatch(logOut());
     localStorage.removeItem("@auth_info");
-  }, [dispatch]);
+  }
 
   //------------------------ Fonctions de récupération de payement et d'historique -------------//
   function pay(badge_id:string) {

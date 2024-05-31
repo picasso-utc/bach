@@ -45,7 +45,7 @@ const PaymentArticle: React.FC<Props> = ({ article, index }) => {
       <Grid
         ref={ref}
         item
-        sm={7}
+        sm={6}
         className={"border-b-full border-b-border-inter-categories border-b"}
         onClick={() => {
           setClicked(true);
@@ -104,7 +104,7 @@ const PaymentArticle: React.FC<Props> = ({ article, index }) => {
       </Grid>
       <Grid
         item
-        sm={1}
+        sm={2}
         className={
           "border-b-full border-b-border-inter-categories border-b cursor-pointer"
         }

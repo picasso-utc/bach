@@ -28,7 +28,9 @@ const Category: React.FC<Props> = ({ category, last, index }) => {
           : " hover:bg-border-categories")
       }
       onClick={() => {
-        dispatch(changeCategoriesSelected(index));
+        if(categorySelectedIndex!==index) {
+          dispatch(changeCategoriesSelected(index));
+        }
       }}
     >
       <Typography
