@@ -373,7 +373,7 @@ function App() {
 
         }
         // eslint-disable-next-line
-    }, [connexion, dispatch, handleLogOut]);
+    }, [connexion]);
 
 
     // Change l'url du websocket pour 1 seconde pour forcer la reconnection
