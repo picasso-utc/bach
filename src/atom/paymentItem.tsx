@@ -87,7 +87,7 @@ const PaymentArticle: React.FC<Props> = ({article, index}) => {
 
             <Grid
                 item
-                sm={2}
+                sm={3}
                 className={"border-b-full border-b-border-inter-categories border-b"}
                 onClick={() => {
                 }}
@@ -102,9 +102,9 @@ const PaymentArticle: React.FC<Props> = ({article, index}) => {
             </Grid>
             <Grid
                 item
-                sm={2}
+                sm={1}
                 className={
-                    "border-b-full border-b-border-inter-categories border-b cursor-pointer"
+                    "border-b-full border-b-border-inter-categories border-b cursor-pointer flex align-middle justify-center"
                 }
                 onClick={() => {
                     dispatch(removeFromBasket(index));
