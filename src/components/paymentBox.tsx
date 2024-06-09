@@ -52,7 +52,7 @@ export default function PaymentBox() {
                 </Grid>
                 <Grid
                     item
-                    sm={2}
+                    sm={3}
                     className={"border-b-full border-b-border-inter-categories border-b"}
                 >
                     <Typography
