@@ -39,7 +39,7 @@ export default function PaymentBox() {
                 </Grid>
                 <Grid
                     item
-                    sm={7}
+                    sm={6}
                     className={"border-b-full border-b-border-inter-categories border-b"}
                 >
                     <Typography
