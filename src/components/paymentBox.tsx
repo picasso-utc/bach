@@ -15,7 +15,7 @@ export default function PaymentBox() {
     return (
         <Box
             className={
-                "bg-background-component border-full border-border-component border-2 w-4/12 box-border rounded-lg overflow-hidden shadow-component p-3"
+                "bg-background-component border-full border-border-component border-2 w-4/12 box-border rounded-lg overflow-hidden shadow-component p-3 absolute top-20 right-4"
             }
         >
             <Grid container justifyContent={"space-between"} spacing={2}>

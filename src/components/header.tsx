@@ -29,7 +29,7 @@ export default function Header() {
     return (
         <Box
             className={
-                "w-full p-3 bg-background-component border-full border-border-component border-2 flex justify-between shadow-component sticky top-0"
+                "w-full p-3 bg-background-component border-full border-border-component border-2 flex justify-between shadow-component sticky top-0 z-10"
             }
         >
             <Typography variant="header" component="h2">

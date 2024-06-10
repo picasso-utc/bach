@@ -393,13 +393,13 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <div
-                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page h-screen overflow-y-scroll cursor-none">
+                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page h-screen overflow-y-scroll">
                 <History/>
                 <Connexion/>
                 <CardReaderNotConnected/>
                 <SalesLocation/>
                 <Header/>
-                <Box className={"p-4 box-border flex items-start justify-start"}>
+                <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>
                     <Categories/>
                     <Articles/>
                     <PaymentBox/>
