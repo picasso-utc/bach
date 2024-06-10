@@ -1,20 +1,24 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    cursor: none !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 @font-face {
-  font-family: 'TAN-NIMBUS';
-  src:  local('TAN-NIMBUS'), url(./fonts/TAN-NIMBUS.ttf) format('truetype');
+    font-family: 'TAN-NIMBUS';
+    src: local('TAN-NIMBUS'), url(./fonts/TAN-NIMBUS.ttf) format('truetype');
 }
 
 @tailwind base;
