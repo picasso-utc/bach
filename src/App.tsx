@@ -224,7 +224,9 @@ function App() {
 
     function getBlocages() {
         apiRequest('GET', "blocages", {}).then(function (res) {
-            dispatch(changeBlocage(res!.data))
+            // @ts-ignore
+            const result: [string | undefined] = Object.keys(res!.data).map((key) => res!.data[key]);
+            dispatch(changeBlocage(result))
         }).catch(() => {
         })
     }
