@@ -15,19 +15,28 @@ const Article: React.FC<Props> = ({article}) => {
     const dispatch = useAppDispatch();
     if (article.image_url === null) {
         return (
-            <Box
-                className={
-                    "aspect-square w-full rounded-2xl bg-white flex items-center justify-center border-border-article border-solid border-3 cursor-pointer p-2 overflow-hidden"
-                }
-                onClick={() => {
-                    dispatch(addToBasket(article));
-                }}
-                key={article.id}
-            >
+            <Box className={"flex flex-col justify-center align-middle gap-2"}>
+                <Box
+                    className={
+                        "aspect-square w-full rounded-2xl bg-white flex items-center justify-center border-border-article border-solid border-3 cursor-pointer p-2 overflow-hidden"
+                    }
+                    onClick={() => {
+                        dispatch(addToBasket(article));
+                    }}
+                    key={article.id}
+                >
+                    <Typography
+                        variant="sub-header"
+                        component="h2"
+                        className={"text-center"}
+                    >
+                        {article.name}
+                    </Typography>
+                </Box>
                 <Typography
-                    variant="subtitle1"
+                    variant="sub-header"
                     component="h2"
-                    className={"text-center"}
+                    className={"text-center text-ellipsis line-clamp-2 font-bold"}
                 >
                     {article.name}
                 </Typography>
@@ -35,18 +44,27 @@ const Article: React.FC<Props> = ({article}) => {
         );
     } else {
         return (
-            <Box
-                component="img"
-                className={
-                    "aspect-square w-full rounded-2xl border-border-article border-solid border-3 shadow-article cursor-pointer"
-                }
-                onClick={() => {
-                    dispatch(addToBasket(article));
-                }}
-                alt={article.name}
-                src={article.image_url}
-                key={article.id}
-            />
+            <Box className={"flex flex-col justify-center align-middle gap-2"}>
+                <Box
+                    component="img"
+                    className={
+                        "aspect-square w-full rounded-2xl border-border-article border-solid border-3 shadow-article cursor-pointer"
+                    }
+                    onClick={() => {
+                        dispatch(addToBasket(article));
+                    }}
+                    alt={article.name}
+                    src={article.image_url}
+                    key={article.id}
+                />
+                <Typography
+                    variant="sub-header"
+                    component="h2"
+                    className={"text-center text-ellipsis line-clamp-2 font-bold"}
+                >
+                    {article.name}
+                </Typography>
+            </Box>
         );
     }
 };
