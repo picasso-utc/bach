@@ -22,9 +22,9 @@ export default function Articles() {
                         return (
                             <Grid
                                 item
-                                sm={3}
+                                sm={2.4}
                                 key={index}
-                                className={"pl-4 pr-4 pb-4 box-border"}
+                                className={"pl-2 pr-2 pb-2 box-border"}
                             >
                                 <Article article={article}/>
                             </Grid>

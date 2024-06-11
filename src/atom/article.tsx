@@ -15,7 +15,7 @@ const Article: React.FC<Props> = ({article}) => {
     const dispatch = useAppDispatch();
     if (article.image_url === null) {
         return (
-            <Box className={"flex flex-col justify-center align-middle gap-2"}>
+            <Box className={"flex flex-col justify-center align-middle gap-0.5"}>
                 <Box
                     className={
                         "aspect-square w-full rounded-2xl bg-white flex items-center justify-center border-border-article border-solid border-3 cursor-pointer p-2 overflow-hidden"
@@ -26,7 +26,7 @@ const Article: React.FC<Props> = ({article}) => {
                     key={article.id}
                 >
                     <Typography
-                        variant="sub-header"
+                        variant="article-text"
                         component="h2"
                         className={"text-center"}
                     >
@@ -34,7 +34,7 @@ const Article: React.FC<Props> = ({article}) => {
                     </Typography>
                 </Box>
                 <Typography
-                    variant="sub-header"
+                    variant="article-text"
                     component="h2"
                     className={"text-center text-ellipsis line-clamp-2 font-bold"}
                 >
@@ -44,7 +44,7 @@ const Article: React.FC<Props> = ({article}) => {
         );
     } else {
         return (
-            <Box className={"flex flex-col justify-center align-middle gap-2"}>
+            <Box className={"flex flex-col justify-center align-middle gap-0.5"}>
                 <Box
                     component="img"
                     className={
@@ -58,7 +58,7 @@ const Article: React.FC<Props> = ({article}) => {
                     key={article.id}
                 />
                 <Typography
-                    variant="sub-header"
+                    variant="article-text"
                     component="h2"
                     className={"text-center text-ellipsis line-clamp-2 font-bold"}
                 >

@@ -33,6 +33,7 @@ declare module "@mui/material/styles" {
         categories: React.CSSProperties;
         header: React.CSSProperties;
         "sub-header": React.CSSProperties;
+        "article-text"?: React.CSSProperties;
     }
 
     // allow configuration using `createTheme`
@@ -40,6 +41,7 @@ declare module "@mui/material/styles" {
         categories?: React.CSSProperties;
         header?: React.CSSProperties;
         "sub-header"?: React.CSSProperties;
+        "article-text"?: React.CSSProperties;
     }
 }
 
@@ -50,6 +52,7 @@ declare module "@mui/material/Typography" {
         categories: true;
         header: true;
         "sub-header": true;
+        "article-text": true
     }
 }
 
@@ -68,6 +71,12 @@ const theme = createTheme({
             fontWeight: 700, // or 'bold'
             fontSize: "1.2rem",
             textAlign: "center",
+        },
+        "article-text": {
+            fontWeight: 500, // or 'bold'
+            fontSize: "1rem",
+            textAlign: "center",
+            lineHeight: 1
         },
     },
 });
@@ -143,6 +152,7 @@ function App() {
                     setActionHappenening(false);
                 })
                 .catch((err) => {
+                    console.log(err)
                     if (err.response.status === 403) {
                         handleLogOut();
                     } else {
@@ -212,6 +222,7 @@ function App() {
                 if (err.response.status === 403) {
                     handleLogOut();
                 } else {
+                    console.log(err)
                     let errorHistory: history = {};
                     errorHistory.messageErreur = err.response.data;
                     dispatch(setHistory(errorHistory));

@@ -14,34 +14,37 @@ export default function Categories() {
     return (
         <Box
             className={
-                "bg-background-component border-full border-border-component border-2 w-2/12 box-border rounded-lg overflow-hidden shadow-component absolute top-20 left-4"
+                "w-2/12 box-border overflow-hidden  absolute top-20 left-4 pr-4"
             }
         >
-            <Grid container justifyContent="center">
-                {categories.map(function (category, index) {
-                    if (
-                        category !== undefined &&
-                        salesLocation?.categories.includes(category.id)
-                    ) {
-                        return (
-                            <Grid
-                                item
-                                sm={12}
-                                key={index}
-                                className={"flex align-middle justify-center"}
-                            >
-                                <Category
-                                    category={category}
-                                    last={index === categories.length - 1}
-                                    index={index}
-                                />
-                            </Grid>
-                        );
-                    } else {
-                        return null;
-                    }
-                })}
-            </Grid>
+            <Box
+                className={"bg-background-component border-full border-border-component border-2 w-full shadow-component rounded-lg"}>
+                <Grid container justifyContent="center">
+                    {categories.map(function (category, index) {
+                        if (
+                            category !== undefined &&
+                            salesLocation?.categories.includes(category.id)
+                        ) {
+                            return (
+                                <Grid
+                                    item
+                                    sm={12}
+                                    key={index}
+                                    className={"flex align-middle justify-center"}
+                                >
+                                    <Category
+                                        category={category}
+                                        last={index === categories.length - 1}
+                                        index={index}
+                                    />
+                                </Grid>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
+                </Grid>
+            </Box>
         </Box>
     );
 }
