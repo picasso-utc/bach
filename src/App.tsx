@@ -221,11 +221,9 @@ function App() {
             .catch((err) => {
                 if (err.response.status === 403) {
                     handleLogOut();
-                } else if (err.response.status === 400) {
-                    console.log(err.response.data.error.message)
                 } else {
                     let errorHistory: history = {};
-                    errorHistory.messageErreur = err.response.data;
+                    errorHistory.messageErreur = err.response.data.error.message;
                     dispatch(setHistory(errorHistory));
                 }
                 setActionHappenening(false);
