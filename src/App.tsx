@@ -221,8 +221,9 @@ function App() {
             .catch((err) => {
                 if (err.response.status === 403) {
                     handleLogOut();
+                } else if (err.response.status === 400) {
+                    console.log(err.response.data.error.message)
                 } else {
-                    console.log(err)
                     let errorHistory: history = {};
                     errorHistory.messageErreur = err.response.data;
                     dispatch(setHistory(errorHistory));
