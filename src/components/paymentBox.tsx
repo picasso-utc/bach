@@ -1,5 +1,4 @@
 import React from "react";
-import {AnimatePresence, motion} from "framer-motion";
 import {Box, Button, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import Grid from "@mui/material/Grid";
@@ -70,21 +69,15 @@ export default function PaymentBox() {
                         sm={1}
                         className={"border-b-full border-b-border-inter-categories border-b"}
                     ></Grid>
-                    <AnimatePresence>
-                        {basket.map(function (article, index) {
-                            return (
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    className={"w-full"}
-                                    key={article!.item.id}
-                                >
-                                    <PaymentItem article={article} index={index}/>
-                                </motion.div>
-                            );
-                        })}
-                    </AnimatePresence>
+                    {basket.map(function (article, index) {
+                        return (
+                            <Box
+                                className={"w-full"}
+                            >
+                                <PaymentItem article={article} index={index}/>
+                            </Box>
+                        );
+                    })}
                     <Grid item sm={12} className={"flex items-center justify-center"}>
                         <Button
                             className={"w-full"}
@@ -99,88 +92,74 @@ export default function PaymentBox() {
                         </Button>
                     </Grid>
                     <Grid item sm={12}>
-                        <AnimatePresence>
-                            {payment.success === undefined && payment.pending === undefined ? (
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    className={"w-full"}
+                        {payment.success === undefined && payment.pending === undefined ? (
+                            <Box
+                                className={"w-full"}
+                            >
+                                <Box
+                                    className={
+                                        "bg-border-component bg-opacity-35 p-4 rounded-2xl flex flex-col align-middle items-center"
+                                    }
                                 >
-                                    <Box
-                                        className={
-                                            "bg-border-component bg-opacity-35 p-4 rounded-2xl flex flex-col align-middle items-center"
-                                        }
+                                    <Typography variant={"categories"}>
+                                        Prix Total: {totalPrice.toFixed(2)}€
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        ) : payment.pending ? (
+                            <Box
+                                className={"w-full"}
+                            >
+                                <Box className={"bg-orange p-4 rounded-2xl"}>
+                                    <Typography
+                                        variant={"sub-header"}
+                                        component="h2"
+                                        className={"text-white"}
                                     >
-                                        <Typography variant={"categories"}>
-                                            Prix Total: {totalPrice.toFixed(2)}€
-                                        </Typography>
-                                    </Box>
-                                </motion.div>
-                            ) : payment.pending ? (
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    className={"w-full"}
+                                        Transaction en cours ...
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        ) : payment.success ? (
+                            <Box
+                                className={"w-full"}
+                            >
+                                <Box
+                                    className={
+                                        "bg-green p-4 rounded-2xl flex flex-col align-middle items-center"
+                                    }
                                 >
-                                    <Box className={"bg-orange p-4 rounded-2xl"}>
-                                        <Typography
-                                            variant={"sub-header"}
-                                            component="h2"
-                                            className={"text-white"}
-                                        >
-                                            Transaction en cours ...
-                                        </Typography>
-                                    </Box>
-                                </motion.div>
-                            ) : payment.success ? (
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    className={"w-full"}
-                                >
-                                    <Box
-                                        className={
-                                            "bg-green p-4 rounded-2xl flex flex-col align-middle items-center"
-                                        }
+                                    <Typography
+                                        variant={"categories"}
+                                        component="h2"
+                                        className={"text-white"}
                                     >
-                                        <Typography
-                                            variant={"categories"}
-                                            component="h2"
-                                            className={"text-white"}
-                                        >
-                                            Payement Réussi
-                                        </Typography>
-                                        <Typography
-                                            variant={"sub-header"}
-                                            component="h2"
-                                            className={"text-white"}
-                                        >
-                                            Solde Actuel: {(payment.solde! / 100).toFixed(2)}€
-                                        </Typography>
-                                    </Box>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    className={"w-full"}
-                                >
-                                    <Box className={"bg-red p-4 rounded-2xl"}>
-                                        <Typography
-                                            variant={"sub-header"}
-                                            component="h2"
-                                            className={"text-white"}
-                                        >
-                                            {payment.messageError}
-                                        </Typography>
-                                    </Box>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                                        Payement Réussi
+                                    </Typography>
+                                    <Typography
+                                        variant={"sub-header"}
+                                        component="h2"
+                                        className={"text-white"}
+                                    >
+                                        Solde Actuel: {(payment.solde! / 100).toFixed(2)}€
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        ) : (
+                            <Box
+                                className={"w-full"}
+                            >
+                                <Box className={"bg-red p-4 rounded-2xl"}>
+                                    <Typography
+                                        variant={"sub-header"}
+                                        component="h2"
+                                        className={"text-white"}
+                                    >
+                                        {payment.messageError}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        )}
                     </Grid>
                 </Grid>
             </Box>

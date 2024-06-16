@@ -83,6 +83,7 @@ const theme = createTheme({
 
 function App() {
     const connexion = useAppSelector((state) => state.connexion);
+    const history = useAppSelector((state) => state.history);
     const wsState = useAppSelector((state) => state.webSocket);
     const basket = useAppSelector((state) => state.basket);
     const blockedUsers = useAppSelector((state) => state.blocages);
@@ -139,6 +140,7 @@ function App() {
                 ["FUND_ID", "AUTH"],
             )
                 .then((res) => {
+                    setActionHappenening(false);
                     dispatch(emptyBasket());
                     dispatch(
                         setPayment({
@@ -147,12 +149,13 @@ function App() {
                         }),
                     );
                     setTimeout(() => {
-                        dispatch(emptyPayment());
+                        if (!actionHappening) {
+                            dispatch(emptyPayment());
+                        }
                     }, 1500);
-                    setActionHappenening(false);
                 })
                 .catch((err) => {
-                    console.log(err)
+                    setActionHappenening(false);
                     if (err.response.status === 403) {
                         handleLogOut();
                     } else {
@@ -164,10 +167,11 @@ function App() {
                             }),
                         );
                         setTimeout(() => {
-                            dispatch(emptyPayment());
+                            if (!actionHappening) {
+                                dispatch(emptyPayment());
+                            }
                         }, 1500);
                     }
-                    setActionHappenening(false);
                 });
         }
     }
@@ -216,7 +220,6 @@ function App() {
                 );
                 result.lastPurchases = lastPurchases;
                 dispatch(setHistory(result));
-                setActionHappenening(false);
             })
             .catch((err) => {
                 if (err.response.status === 403) {
@@ -226,7 +229,6 @@ function App() {
                     errorHistory.messageErreur = err.response.data.error.message;
                     dispatch(setHistory(errorHistory));
                 }
-                setActionHappenening(false);
             });
     }
 
@@ -327,12 +329,13 @@ function App() {
                 if (connexion.type === typeConnexion.LOGOUT) {
                     dispatch(logInTmpBadge(data.payload))
                 } else if (connexion.type === typeConnexion.SUCCESSFULL) {
-                    if (basket.length === 0) {
-                        setActionHappenening(true);
-                        getLastPurchases(data.payload);
-                    } else {
-                        setActionHappenening(true);
-                        pay(data.payload);
+                    if (history.messageErreur === undefined) {
+                        if (basket.length === 0) {
+                            getLastPurchases(data.payload);
+                        } else {
+                            setActionHappenening(true);
+                            pay(data.payload);
+                        }
                     }
                 }
             } else if (data.type === "state") {
