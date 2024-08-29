@@ -17,8 +17,8 @@ code {
 }
 
 @font-face {
-    font-family: 'TAN-NIMBUS';
-    src: local('TAN-NIMBUS'), url(./fonts/TAN-NIMBUS.ttf) format('truetype');
+    font-family: 'DURANGO-WESTERN';
+    src: local('DURANGO-WESTERN'), url(./fonts/DURANGO-WESTERN.otf) format('truetype');
 }
 
 @tailwind base;
