@@ -16,7 +16,7 @@ module.exports = {
       8: "8px",
     },
     colors: {
-      "background-component": "#EE6F2D",
+      "background-component": "#BE8C6B",
       "border-component": "#B2291C",
       "border-inter-categories": "hsla(0, 0%, 100%, .1)",
       red: "#ff3333",
