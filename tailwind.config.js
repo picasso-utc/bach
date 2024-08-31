@@ -3,8 +3,8 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     boxShadow: {
-      component: "0 4px 6px -1px rgba(195, 152, 70, 0.99)",
-      article: "0 4px 6px -1px rgba(157, 94, 109, 0.99)",
+      component: "0 4px 6px -1px #883F1A",
+      article: "0 4px 6px -1px #883F1A",
     },
     borderWidth: {
       DEFAULT: "0.1em",
@@ -16,23 +16,23 @@ module.exports = {
       8: "8px",
     },
     colors: {
-      "background-component": "#EFBE60",
-      "border-component": "#a57c2e",
+      "background-component": "#F7AC6C",
+      "border-component": "#B2291C",
       "border-inter-categories": "hsla(0, 0%, 100%, .1)",
       red: "#ff3333",
       green: "#5cb85c",
-      "border-article": "#e1899e",
+      "border-article": "#B2291C",
       orange: "#EF7B45",
       "gray-dark": "#273444",
       gray: "#8492a6",
       "gray-light": "#d3dce6",
       slate: "#201f1f",
-      "background-page": "#EFDBD0",
+      "background-page": "#F9DCAD",
       white: "#FFFFFF",
     },
     extend: {
       backgroundImage: {
-        logo_bg: "url('../public/logo_pic_p24_blur.png')",
+        logo_bg: "url('../public/logo_pic_a24_blur.png')",
       },
     },
   },

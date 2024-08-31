@@ -65,7 +65,8 @@ const theme = createTheme({
         header: {
             fontWeight: 900, // or 'bold'
             fontSize: "1.5rem",
-            fontFamily: "TAN-NIMBUS",
+            fontFamily: "DURANGO-WESTERN",
+            letterSpacing:"0.02em",
         },
         "sub-header": {
             fontWeight: 700, // or 'bold'
@@ -76,7 +77,9 @@ const theme = createTheme({
             fontWeight: 500, // or 'bold'
             fontSize: "1rem",
             textAlign: "center",
-            lineHeight: 1
+            lineHeight: 1,
+            color: "white",
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',        
         },
     },
 });
@@ -410,7 +413,7 @@ function App() {
                 <History/>
                 <Connexion/>
                 <CardReaderNotConnected/>
-                <SalesLocation/>
+                    <SalesLocation/>
                 <Header/>
                 <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>
                     <Categories/>
