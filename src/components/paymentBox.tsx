@@ -74,7 +74,7 @@ export default function PaymentBox() {
                             <Box
                                 className={"w-full"}
                             >
-                                <PaymentItem article={article} index={index}/>
+                                <PaymentItem article={article} index={index} key={index}/>
                             </Box>
                         );
                     })}
