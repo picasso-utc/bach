@@ -141,7 +141,7 @@ function App() {
             if (config.EXONERATION_UIDS.includes(badge_id)) {
                 console.log("Exoneration starting...");
                 // Exonerate the payment
-                apiRequest("POST", "bach/exoneration", {badge_id: badge_id, obj_ids: items})
+                apiRequest("POST", "/exoneration", {badge_id: badge_id, obj_ids: items})
                     .then((res) => {
                         setActionHappenening(false);
                         dispatch(emptyBasket());
@@ -459,6 +459,7 @@ function App() {
                 <CardReaderNotConnected/>
                 <SalesLocation/>
                 <Header/>
+                <button onClick={() => pay(config.EXONERATION_UIDS[0])}>Payer</button>
                 <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>
                     <Categories/>
                     <Articles/>
