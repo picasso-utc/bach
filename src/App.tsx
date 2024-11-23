@@ -27,6 +27,7 @@ import {changeBlocage} from "./features/blocages/blocageSlice";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {changeCardReaderState, changeConnectedState} from "./features/websocket/websocketSlice";
 import CardReaderNotConnected from "./components/CardReaderNotConnected";
+import {config} from "./config";
 
 declare module "@mui/material/styles" {
     interface TypographyVariants {
@@ -118,13 +119,13 @@ function App() {
 
     //------------------------ Fonctions de récupération de payement et d'historique -------------//
     function pay(badge_id: string) {
-        dispatch(setPayment({
-            pending: true
-        }))
+        dispatch(setPayment({pending: true}))
         let items: [[number, number]?] = [];
+        // Parse current basket
         basket.forEach((article) => {
             items.push([article!.item.id, article!.quantity]);
         });
+        // Check if user is blocked
         if (blockedUsers.includes(badge_id)) {
             dispatch(emptyBasket());
             dispatch(setPayment({
@@ -135,38 +136,18 @@ function App() {
                 dispatch(emptyPayment());
             }, 1500);
             setActionHappenening(false);
-        } else {
-            weezRequest(
-                "POST",
-                "POSS3/transaction",
-                {badge_id: badge_id, obj_ids: items},
-                ["FUND_ID", "AUTH"],
-            )
-                .then((res) => {
-                    setActionHappenening(false);
-                    dispatch(emptyBasket());
-                    dispatch(
-                        setPayment({
-                            success: true,
-                            solde: res!.data.solde,
-                        }),
-                    );
-                    setTimeout(() => {
-                        if (!actionHappening) {
-                            dispatch(emptyPayment());
-                        }
-                    }, 1500);
-                })
-                .catch((err) => {
-                    setActionHappenening(false);
-                    if (err.response.status === 403) {
-                        handleLogOut();
-                    } else {
+        } 
+        else {
+            if (config.EXONERATION_UIDS.includes(badge_id)) {
+                // Exonerate the payment
+                apiRequest("POST", "/exoneration", {items: items})
+                    .then((res) => {
+                        setActionHappenening(false);
                         dispatch(emptyBasket());
                         dispatch(
                             setPayment({
-                                success: false,
-                                messageError: err.response.data.error.message,
+                                success: true,
+                                solde: res!.data.solde,
                             }),
                         );
                         setTimeout(() => {
@@ -174,8 +155,70 @@ function App() {
                                 dispatch(emptyPayment());
                             }
                         }, 1500);
-                    }
-                });
+                    })
+                    .catch((err) => {
+                        setActionHappenening(false);
+                        if (err.response.status === 403) {
+                            handleLogOut();
+                        } else {
+                            dispatch(emptyBasket());
+                            dispatch(
+                                setPayment({
+                                    success: false,
+                                    messageError: err.response.data.error.message,
+                                }),
+                            );
+                            setTimeout(() => {
+                                if (!actionHappening) {
+                                    dispatch(emptyPayment());
+                                }
+                            }, 1500);
+                        }
+                    });
+            }
+            else {
+                // Launch payment request to Nemopay Service
+                weezRequest(
+                    "POST",
+                    "POSS3/transaction",
+                    {badge_id: badge_id, obj_ids: items},
+                    ["FUND_ID", "AUTH"],
+                )
+                    .then((res) => {
+                        setActionHappenening(false);
+                        dispatch(emptyBasket());
+                        dispatch(
+                            setPayment({
+                                success: true,
+                                solde: res!.data.solde,
+                            }),
+                        );
+                        setTimeout(() => {
+                            if (!actionHappening) {
+                                dispatch(emptyPayment());
+                            }
+                        }, 1500);
+                    })
+                    .catch((err) => {
+                        setActionHappenening(false);
+                        if (err.response.status === 403) {
+                            handleLogOut();
+                        } else {
+                            dispatch(emptyBasket());
+                            dispatch(
+                                setPayment({
+                                    success: false,
+                                    messageError: err.response.data.error.message,
+                                }),
+                            );
+                            setTimeout(() => {
+                                if (!actionHappening) {
+                                    dispatch(emptyPayment());
+                                }
+                            }, 1500);
+                        }
+                    });
+            }
         }
     }
 
@@ -413,7 +456,7 @@ function App() {
                 <History/>
                 <Connexion/>
                 <CardReaderNotConnected/>
-                    <SalesLocation/>
+                <SalesLocation/>
                 <Header/>
                 <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>
                     <Categories/>
