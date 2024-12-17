@@ -147,7 +147,7 @@ function App() {
                         dispatch(
                             setPayment({
                                 success: true,
-                                solde: res!.data.solde,
+                                solde: 0,
                             }),
                         );
                         setTimeout(() => {

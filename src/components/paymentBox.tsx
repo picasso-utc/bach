@@ -135,7 +135,7 @@ export default function PaymentBox() {
                                         component="h2"
                                         className={"text-white"}
                                     >
-                                        Payement Réussi
+                                        Paiement Réussi
                                     </Typography>
                                     <Typography
                                         variant={"sub-header"}
