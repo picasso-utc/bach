@@ -54,7 +54,7 @@ const Article: React.FC<Props> = ({article}) => {
                         dispatch(addToBasket(article));
                     }}
                     alt={article.name}
-                    src={article.image_url}
+                    src={'https://pic.assos.utc.fr/compress?url='+article.image_url}
                     key={article.id}
                 />
                 <Typography
