@@ -17,8 +17,13 @@ code {
 }
 
 @font-face {
-    font-family: 'DURANGO-WESTERN';
-    src: local('DURANGO-WESTERN'), url(./fonts/DURANGO-WESTERN.otf) format('truetype');
+    font-family: 'Octuple';
+    src: local('Octuple'), url(./fonts/Octuple-max.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Neophyte';
+    src: local('Neophyte'), url(./fonts/Y2K_neophyte.ttf) format('truetype');
 }
 
 @tailwind base;

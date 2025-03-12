@@ -35,6 +35,7 @@ declare module "@mui/material/styles" {
         header: React.CSSProperties;
         "sub-header": React.CSSProperties;
         "article-text"?: React.CSSProperties;
+        "alt-article-text"?: React.CSSProperties;
     }
 
     // allow configuration using `createTheme`
@@ -43,6 +44,7 @@ declare module "@mui/material/styles" {
         header?: React.CSSProperties;
         "sub-header"?: React.CSSProperties;
         "article-text"?: React.CSSProperties;
+        "alt-article-text"?: React.CSSProperties;
     }
 }
 
@@ -53,7 +55,8 @@ declare module "@mui/material/Typography" {
         categories: true;
         header: true;
         "sub-header": true;
-        "article-text": true
+        "article-text": true;
+        "alt-article-text"?: true;
     }
 }
 
@@ -62,25 +65,36 @@ const theme = createTheme({
         categories: {
             fontWeight: 900, // or 'bold'
             fontSize: "1rem",
+            fontFamily: "Neophyte"
         },
         header: {
             fontWeight: 900, // or 'bold'
             fontSize: "1.5rem",
-            fontFamily: "DURANGO-WESTERN",
+            fontFamily: "Octuple",
             letterSpacing:"0.02em",
         },
         "sub-header": {
             fontWeight: 700, // or 'bold'
             fontSize: "1.2rem",
             textAlign: "center",
+            fontFamily: "Neophyte"
         },
         "article-text": {
-            fontWeight: 500, // or 'bold'
-            fontSize: "1rem",
+            fontWeight: 900, // or 'bold'
+            fontSize: "1.2rem",
             textAlign: "center",
             lineHeight: 1,
             color: "white",
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',        
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)',  
+            fontFamily: "Neophyte"      
+        },
+        "alt-article-text": {
+            fontWeight: 900, 
+            fontSize: "1.3rem",
+            textAlign: "center",
+            lineHeight: 1,
+            color: "#a33b7e",
+            fontFamily: "Neophyte"      
         },
     },
 });
@@ -452,10 +466,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <div
-                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page h-screen overflow-y-scroll">
+                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-contain h-screen overflow-y-scroll">
                 <History/>
                 <Connexion/>
-                <CardReaderNotConnected/>
                 <SalesLocation/>
                 <Header/>
                 <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>

@@ -16,23 +16,23 @@ module.exports = {
       8: "8px",
     },
     colors: {
-      "background-component": "#F7AC6C",
-      "border-component": "#B2291C",
+      "background-component": "#ff68ab",
+      "border-component": "#a33b7e",
       "border-inter-categories": "hsla(0, 0%, 100%, .1)",
       red: "#ff3333",
       green: "#5cb85c",
-      "border-article": "#B2291C",
+      "border-article": "#a33b7e",
       orange: "#EF7B45",
       "gray-dark": "#273444",
       gray: "#8492a6",
       "gray-light": "#d3dce6",
       slate: "#201f1f",
-      "background-page": "#F9DCAD",
+      "background-page": "#fffb6c",
       white: "#FFFFFF",
     },
     extend: {
       backgroundImage: {
-        logo_bg: "url('../public/logo_pic_a24_blur.png')",
+        logo_bg: "url('../public/logo.png')"
       },
     },
   },
