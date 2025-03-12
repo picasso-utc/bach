@@ -469,6 +469,7 @@ function App() {
                 className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-contain h-screen overflow-y-scroll">
                 <History/>
                 <Connexion/>
+                <CardReaderNotConnected/>
                 <SalesLocation/>
                 <Header/>
                 <Box className={"p-4 box-border flex items-start w-full justify-end z-0"}>
