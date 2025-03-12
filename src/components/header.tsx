@@ -2,7 +2,7 @@ import React from "react";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {logOut, typeConnexion} from "../features/connexion/connexionSlice";
 import {Box, Button, Typography} from "@mui/material";
-import LogoutIcon from "@mui/icons-material/Logout";
+import CancelPresentation from "@mui/icons-material/Logout";
 import {changeSelectedLocation} from "../features/salelocation/salelocationSlice";
 import {changeCategoriesSelected} from "../features/category/categorySlice";
 import {emptyBasket} from "../features/basket/basketSlice";
@@ -54,10 +54,10 @@ export default function Header() {
             <Box>
                 <Button
                     variant="contained"
-                    color="error"
+                    style={{backgroundColor:"#fffb6c", color:'#a33b7e'}}
                     onClick={() => handleLogOut()}
                     disabled={connexion.type !== typeConnexion.SUCCESSFULL}
-                    endIcon={<LogoutIcon/>}
+                    endIcon={<CancelPresentation/>}
                 >
                     Déconnexion
                 </Button>

@@ -26,9 +26,9 @@ const Article: React.FC<Props> = ({article}) => {
                     key={article.id}
                 >
                     <Typography
-                        variant="article-text"
+                        variant="alt-article-text"
                         component="h2"
-                        className={"text-center"}
+                        className={"text-center text-black"}
                     >
                         {article.name}
                     </Typography>
