@@ -222,7 +222,7 @@ function App() {
                             dispatch(
                                 setPayment({
                                     success: false,
-                                    messageError: err.response.data.error.message,
+                                    messageError: "Malaise (t'as probablement plus de thunes)",
                                 }),
                             );
                             setTimeout(() => {
