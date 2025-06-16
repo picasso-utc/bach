@@ -193,7 +193,7 @@ function App() {
             }
             else {
                 if(config.BOURSE_EVENT === true ){
-                    axios.post("http://127.0.0.1:8000/api/transaction", {  // system_id, app_key et fund_id sont dans l'.env Laravel
+                    axios.post("https://pic.assos.utc.fr/api/transaction", {  // system_id, app_key et fund_id sont dans l'.env Laravel
                         badge_id: badge_id,
                         items : items,
                         session_id: JSON.parse(localStorage.getItem("@auth_info") || '{}').sessionId,
