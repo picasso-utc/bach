@@ -466,7 +466,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <div
-                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-contain h-screen overflow-y-scroll">
+                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-[length:45%] h-screen overflow-y-scroll">
                 <History/>
                 <Connexion/>
                 <CardReaderNotConnected/>
