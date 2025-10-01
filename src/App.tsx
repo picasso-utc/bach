@@ -3,9 +3,10 @@ import "./App.css";
 import Header from "./components/header";
 import {useAppDispatch, useAppSelector} from "./app/hooks";
 import Connexion from "./components/connexion";
-import {Box} from "@mui/material";
+import {Box, Card} from "@mui/material";
 import Categories from "./components/categories";
 import {apiRequest, jcapRequest, weezRequest} from "./api/apiClients";
+import axios from "axios";
 import {
     changeSalesLocations,
     changeSelectedLocation,
@@ -191,13 +192,12 @@ function App() {
                     });
             }
             else {
-                // Launch payment request to Nemopay Service
-                weezRequest(
-                    "POST",
-                    "POSS3/transaction",
-                    {badge_id: badge_id, obj_ids: items},
-                    ["FUND_ID", "AUTH"],
-                )
+                if(config.BOURSE_EVENT === true ){
+                    axios.post("https://pic.assos.utc.fr/api/transaction", {  // system_id, app_key et fund_id sont dans l'.env Laravel
+                        badge_id: badge_id,
+                        items : items,
+                        session_id: JSON.parse(localStorage.getItem("@auth_info") || '{}').sessionId,
+                    })
                     .then((res) => {
                         setActionHappenening(false);
                         dispatch(emptyBasket());
@@ -222,7 +222,7 @@ function App() {
                             dispatch(
                                 setPayment({
                                     success: false,
-                                    messageError: err.response.data.error.message,
+                                    messageError: "Malaise (t'as probablement plus de thunes)",
                                 }),
                             );
                             setTimeout(() => {
@@ -232,6 +232,49 @@ function App() {
                             }, 1500);
                         }
                     });
+                } else {
+                    // Launch payment request to Nemopay Service
+                    weezRequest(
+                        "POST",
+                        "POSS3/transaction",
+                        {badge_id: badge_id, obj_ids: items},
+                        ["FUND_ID", "AUTH"],
+                    )
+                        .then((res) => {
+                            setActionHappenening(false);
+                            dispatch(emptyBasket());
+                            dispatch(
+                                setPayment({
+                                    success: true,
+                                    solde: res!.data.solde,
+                                }),
+                            );
+                            setTimeout(() => {
+                                if (!actionHappening) {
+                                    dispatch(emptyPayment());
+                                }
+                            }, 1500);
+                        })
+                        .catch((err) => {
+                            setActionHappenening(false);
+                            if (err.response.status === 403) {
+                                handleLogOut();
+                            } else {
+                                dispatch(emptyBasket());
+                                dispatch(
+                                    setPayment({
+                                        success: false,
+                                        messageError: err.response.data.error.message,
+                                    }),
+                                );
+                                setTimeout(() => {
+                                    if (!actionHappening) {
+                                        dispatch(emptyPayment());
+                                    }
+                                }, 1500);
+                            }
+                        });
+                }
             }
         }
     }
