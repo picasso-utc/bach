@@ -53,25 +53,6 @@ return <div className="container">Bonjour {username}</div>;
 
 ## 2. Cartographie des Dossiers
 
-Voici la structure du projet (basée sur `src/`) :
-
-```
-projet-react/
-├── node_modules/          ⛔ ZONE INTERDITE (ne jamais modifier)
-├── public/                📦 Fichiers statiques (images, favicon...)
-├── src/                   💎 Votre code (là où vous travaillez)
-│   ├── components/        🧩 Composants réutilisables (Bouton, Card, Header...)
-│   ├── pages/             📄 Composants "pages" (Login, Dashboard...)
-│   ├── assets/            🎨 Images, fonts, fichiers CSS
-│   ├── hooks/             🪝 Hooks personnalisés (logique réutilisable)
-│   ├── context/           🌐 Contexte React (état partagé entre composants)
-│   ├── store/             🗄️ Redux/état global (gestion centralisée du state)
-│   ├── App.tsx            🏠 Composant racine (point d'entrée de l'app)
-│   └── main.tsx           🚀 Fichier de démarrage (lance React dans le DOM)
-├── package.json           📋 Liste des dépendances et scripts npm
-└── tsconfig.json          ⚙️ Configuration TypeScript
-```
-
 ### Les fichiers clés
 
 #### `index.tsx` 
