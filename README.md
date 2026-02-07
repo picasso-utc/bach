@@ -211,6 +211,3 @@ Quand quelque chose ne marche pas :
 > Ne laissont pas ce super projet subir le cycle de renouvellement qu'on voit bien trop souvent dans le paysage associatif de notre belle école.
 > 
 > **Have fun !** 
-
-
-To learn React, check out the [React documentation](https://reactjs.org/).
