@@ -54,7 +54,7 @@ export default function Header() {
             <Box>
                 <Button
                     variant="contained"
-                    style={{backgroundColor:"#fffb6c", color:'#a33b7e'}}
+                    style={{backgroundColor:"#230E2F", color:'#9C75BE'}}
                     onClick={() => handleLogOut()}
                     disabled={connexion.type !== typeConnexion.SUCCESSFULL}
                     endIcon={<CancelPresentation/>}

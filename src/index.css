@@ -17,13 +17,13 @@ code {
 }
 
 @font-face {
-    font-family: 'Octuple';
-    src: local('Octuple'), url(./fonts/Octuple-max.ttf) format('truetype');
+    font-family: 'Tarotheque';
+    src: local('Tarotheque'), url(./fonts/tarotheque_v1.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'Neophyte';
-    src: local('Neophyte'), url(./fonts/Y2K_neophyte.ttf) format('truetype');
+    font-family: 'Pretendard';
+    src: local('Pretendard'), url(./fonts/Pretendard-Light.otf) format('truetype');
 }
 
 @tailwind base;
