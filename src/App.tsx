@@ -67,19 +67,19 @@ const theme = createTheme({
         categories: {
             fontWeight: 900, // or 'bold'
             fontSize: "1rem",
-            fontFamily: "Neophyte"
+            fontFamily: "Pretendard"
         },
         header: {
             fontWeight: 900, // or 'bold'
-            fontSize: "1.5rem",
-            fontFamily: "Octuple",
+            fontSize: "1.9rem",
+            fontFamily: "Tarotheque",
             letterSpacing:"0.02em",
         },
         "sub-header": {
             fontWeight: 700, // or 'bold'
             fontSize: "1.2rem",
             textAlign: "center",
-            fontFamily: "Neophyte"
+            fontFamily: "Pretendard"
         },
         "article-text": {
             fontWeight: 900, // or 'bold'
@@ -88,15 +88,15 @@ const theme = createTheme({
             lineHeight: 1,
             color: "white",
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)',  
-            fontFamily: "Neophyte"      
+            fontFamily: "Pretendard"      
         },
         "alt-article-text": {
             fontWeight: 900, 
             fontSize: "1.3rem",
             textAlign: "center",
             lineHeight: 1,
-            color: "#a33b7e",
-            fontFamily: "Neophyte"      
+            color: "#923615",
+            fontFamily: "Pretendard"      
         },
     },
 });
@@ -510,7 +510,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <div
-                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-[length:70%] h-screen overflow-y-scroll">
+                className="App bg-logo_bg w-screen bg-no-repeat bg-center bg-fixed bg-background-page bg-[length:55%] h-screen overflow-y-scroll">
                 <History/>
                 <Connexion/>
                 <CardReaderNotConnected/>
