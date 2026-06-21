@@ -425,6 +425,38 @@ function App() {
             });
     }
 
+    async function syncProductsToOcktopus() {
+        try {
+            const [categoriesRes, articlesRes] = await Promise.all([
+                weezRequest("POST", "/POSS3/getCategories", {}, ["FUND_ID", "AUTH"]),
+                weezRequest("POST", "/POSS3/getArticles", {}, ["FUND_ID", "AUTH"]),
+            ]);
+
+            const categories = categoriesRes!.data as categoryState[];
+            const articles = articlesRes!.data as articleImport[];
+
+            const products = articles
+                .filter((a) => a.removed_in_event === null)
+                .map((a) => {
+                    const cat = categories.find((c) => c.id === a.categorie_id);
+                    return {
+                        name: a.name,
+                        price: a.price,
+                        category: cat?.name ?? "unknown",
+                    };
+                });
+
+            await axios.post(
+                config.API_URL + "bach/send-products",
+                { products },
+                { headers: { "X-Bach-Api-Key": config.BACH_API_KEY } }
+            );
+            console.log("[Bach] Products synced to Ocktopus:", products.length);
+        } catch (e) {
+            console.error("[Bach] Failed to sync products:", e);
+        }
+    }
+
     //--------------------------------------------- Use Effects ----------------------------------------------//
     useEffect(() => {
         if (lastMessage !== null && !actionHappening) {
@@ -489,7 +521,7 @@ function App() {
             getSalesLocation();
             getCategories();
             getArticles();
-
+            syncProductsToOcktopus();
         }
         // eslint-disable-next-line
     }, [connexion]);
